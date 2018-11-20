@@ -1,0 +1,15 @@
+﻿<Page x:Class="BettaApp.AcrylicTest"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:BettaApp"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid Name="uiBackground" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontFamily="50"
+                   Text="This is a acrylic test page, but i cant get it to work..." />
+    </Grid>
+</Page>

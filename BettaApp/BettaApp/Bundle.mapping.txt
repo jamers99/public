@@ -1,0 +1,2 @@
+﻿[OptionalProjects]
+"..\MoeBetta\MoeBetta.csproj"
