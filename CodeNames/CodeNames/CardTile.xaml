@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="CodeNames.CardTile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:CodeNames"
+             Width="100"
+             Height="100"
+             Margin="0 0 10 10"
+             x:DefaultBindMode="OneWay">
+    <UserControl.Resources>
+        <local:CardTypeToBrushConverter x:Key="TypeToColor" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Button HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Click="Tile_Click"
+                Content="{x:Bind Card.Word}"
+                Style="{ThemeResource ButtonRevealStyle}" />
+
+        <Rectangle HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Fill="{x:Bind Card.Type, Converter={StaticResource TypeToColor}}"
+                   Visibility="{x:Bind Card.IsReveald}" />
+
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="{x:Bind Card.Word}"
+                   Visibility="{x:Bind Card.IsPreviewing}" />
+    </Grid>
+</UserControl>
