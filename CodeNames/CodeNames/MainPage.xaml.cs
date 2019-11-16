@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using CodeNames.Logic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -7,30 +8,30 @@ namespace CodeNames
 {
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        Game game = new Game();
+        Game game;
         public Game Game
         {
             get => game;
             set { game = value; OnPropertyChanged(); }
         }
 
-        int gameCount = 1;
-        public int GameCount
-        {
-            get => gameCount;
-            set { gameCount = value; OnPropertyChanged(); }
-        }
-
         public MainPage()
         {
             InitializeComponent();
+
+            NewGame();
         }
 
-        void New_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        void NewGame()
         {
-            Game = new Game();
-            GameCount++;
+            Game = new Game((Game?.Number ?? 0) + 1);
+            if (Game.AddCards())
+                uiFrame.Content = new GamePage(Game);
+            else
+                uiFrame.Content = new DictionaryPage(Game);
         }
+
+        void New_Click(object sender, RoutedEventArgs e) => NewGame();
 
         void SymbolIcon_PointerPressed(object sender, PointerRoutedEventArgs e) => Game.IsPreviewing = true;
 
