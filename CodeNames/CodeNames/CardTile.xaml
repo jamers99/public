@@ -7,7 +7,8 @@
              Margin="0 0 10 10"
              x:DefaultBindMode="OneWay">
     <UserControl.Resources>
-        <local:CardTypeToBrushConverter x:Key="TypeToColor" />
+        <local:CardTypeToBackgroundConverter x:Key="TypeToBackground" />
+        <local:CardTypeToForegroundConverter x:Key="TypeToForeground" />
     </UserControl.Resources>
 
     <Grid>
@@ -15,16 +16,20 @@
                 VerticalAlignment="Stretch"
                 Click="Tile_Click"
                 Content="{x:Bind Card.Word}"
+                FontSize="18"
                 Style="{ThemeResource ButtonRevealStyle}" />
 
         <Rectangle HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
-                   Fill="{x:Bind Card.Type, Converter={StaticResource TypeToColor}}"
+                   Fill="{x:Bind Card.Type, Converter={StaticResource TypeToBackground}}"
                    Visibility="{x:Bind Card.IsReveald}" />
 
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
+                   FontSize="18"
+                   Foreground="{x:Bind Card.Type, Converter={StaticResource TypeToForeground}}"
                    Text="{x:Bind Card.Word}"
+                   TextWrapping="Wrap"
                    Visibility="{x:Bind Card.IsPreviewing}" />
     </Grid>
 </UserControl>

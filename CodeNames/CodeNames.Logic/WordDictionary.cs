@@ -13,16 +13,16 @@ namespace CodeNames.Logic
         {
             return ("Bucket,Sack,Leaf,Family,Relative,Freak,Chicken,Adventure,Heated,Sausage,Bird," +
                     "Shark,Lone,Chilli,Point,Toe,Light,Greet,Rule,Fear,Mennonite,Action,Drive,Leave," +
-                    "Kobe,Christmas,Jolly,Lit,Dope,Drug,Shoe,Vacciens,Mom,Conspiricy,Politicion,Moon," +
-                    "Adolf,Notify,Ring,Doornob,Amish,Plug,Painting,Left,Moose,Ear,Lace,Todo,Fred," +
+                    "Kobe,Christmas,Jolly,Lit,Dope,Drug,Shoe,Vaccines,Mom,Conspiricy,Politicion,Moon," +
+                    "Adolf,Notify,Ring,Doornob,Amish,Plug,Painting,Left,Moose,Ear,Lace,Todo," +
                     "Thread,Corner,Peru,Wall,Kindle,Nail,Code,Hike,Learn,Far,Fair,Speak,Climber," +
                     "Surfer,Loud,Vent,High,Hair dresser,Chef,Coat,Shady,Fire,Bunz,Flax,Running," +
                     "Light bulb,School,Tech,Tinker bell,Sendy,Lamp,Mirror,Battle,Argument,Nice," +
-                    "Wonderful,Button,Consolation,Ham,Cheese,Back,Chopper,Air,Sword,Train,Instagram," +
+                    "Wonderful,Button,Constelation,Ham,Cheese,Back,Chopper,Air,Sword,Train,Instagram," +
                     "Spotify,Boy,Flower,Coal,Hand,Boot,Steam,Tripod,Key,Round,Open,YWAM,Time,Flash," +
-                    "School,Mustard,Hotrod,Movie,Man,Napolean,Word,Myth,Psych,Blue,France,Clock,Chad," +
+                    "School,Mustard,Hotrod,Movie,Man,Napolean,Word,Myth,Psych,Blue,France,Clock," +
                     "Monopoly,Hummus,Savage,Flert,Flee,Espresso,Katana,Plain,Beard,Julio Roberts," +
-                    "Plank,Skin,Hair,Organ,Thor,Metal,Screw,Bunz,Toast,Wax,Fire,Mom,Backpack,Watch," +
+                    "Plank,Skin,Hair,Organ,Thor,Metal,Screw,Toast,Wax,Fire,Mom,Backpack,Watch," +
                     "Fur,Slang,Baby,Arm,War,Train,Drink,Viking,Iron,Barn,Bear,Mushroom,Acid,Assassin," +
                     "Turkey,Write,Plate,Pants,Pizza,Gladius,Drug,Will Smith,Plank,Wood,Plain,Prince," +
                     "Antler,Play,Blast,Knight,Shoot,Flag,Sea,Holmes County,Trash,Glass,Europe,Plaid," +
