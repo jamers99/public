@@ -83,7 +83,28 @@ namespace CodeNames
                 Items.Add(new Card(word, type));
             }
 
+            UpdateRows();
+
             return true;
         }
+
+        #region Rows
+
+        public ObservableCollection<List<Card>> RowsOfCards { get; } = new ObservableCollection<List<Card>>();
+
+        void UpdateRows()
+        {
+            RowsOfCards.Clear();
+            for (int i = 0; i < BoardSize; i++)
+            {
+                var rowBegin = i * BoardSize;
+                var row = Items.Skip(rowBegin)
+                               .Take(BoardSize)
+                               .ToList();
+                RowsOfCards.Add(row);
+            }
+        }
+
+        #endregion
     }
 }
