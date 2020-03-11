@@ -181,6 +181,12 @@
       <Version>5.1.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeNames\CodeNames.csproj">
+      <Project>{26f7d673-e41e-4b9c-94c0-0c79b31b9b4f}</Project>
+      <Name>CodeNames</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
