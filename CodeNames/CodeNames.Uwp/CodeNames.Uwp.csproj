@@ -181,12 +181,6 @@
       <Version>5.1.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CodeNames.Logic\CodeNames.Logic.csproj">
-      <Project>{9CA8CC0D-AACF-4512-AC82-E5E10A16D2F2}</Project>
-      <Name>CodeNames.Logic</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
