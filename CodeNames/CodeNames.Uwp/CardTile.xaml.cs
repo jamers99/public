@@ -1,12 +1,11 @@
 ﻿using System;
-using CodeNames.Logic;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace CodeNames
+namespace CodeNames.Uwp
 {
     public sealed partial class CardTile : UserControl
     {

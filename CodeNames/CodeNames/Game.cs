@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace CodeNames.Logic
+namespace CodeNames
 {
     public class Game : ReadOnlyObservableCollection<Card>
     {

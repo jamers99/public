@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodeNames.Logic
+namespace CodeNames
 {
     public class Randomizer
     {

@@ -1,9 +1,8 @@
-﻿using CodeNames.Logic;
-using Windows.System;
+﻿using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace CodeNames
+namespace CodeNames.Uwp
 {
     public sealed partial class DictionaryPage : ContentControl
     {

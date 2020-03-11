@@ -1,7 +1,6 @@
-﻿using CodeNames.Logic;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 
-namespace CodeNames
+namespace CodeNames.Uwp
 {
     public sealed partial class GamePage : ContentControl
     {

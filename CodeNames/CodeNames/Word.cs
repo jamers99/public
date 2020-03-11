@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace CodeNames.Logic
+namespace CodeNames
 {
     public class Word : INotifyPropertyChanged
     {

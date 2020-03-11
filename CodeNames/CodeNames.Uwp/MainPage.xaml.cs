@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel;
-using CodeNames.Logic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace CodeNames
+namespace CodeNames.Uwp
 {
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {

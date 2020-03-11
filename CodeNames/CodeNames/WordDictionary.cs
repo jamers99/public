@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace CodeNames.Logic
+namespace CodeNames
 {
     public class WordDictionary : ObservableCollection<Word>
     {
