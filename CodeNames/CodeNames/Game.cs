@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 
 namespace CodeNames
@@ -16,6 +18,8 @@ namespace CodeNames
             BoardSize = boardSize;
             FirstTeam = GetFirstTeam();
             SecondTeam = GetSecondTeam();
+
+            Dictionary.CollectionChanged += Dictionary_CollectionChanged;
         }
 
         public bool IsPreviewing
@@ -43,18 +47,48 @@ namespace CodeNames
 
         CardType GetSecondTeam() => FirstTeam == CardType.TeamBlue ? CardType.TeamRed : CardType.TeamBlue;
 
+        #region Card count
+
         int GetNumberOfCards() => BoardSize * BoardSize;
 
-        public bool HasEnoughWords() => Dictionary.Count >= GetNumberOfCards();
+        public bool HasEnoughWords => Dictionary.Count >= GetNumberOfCards();
+
+        void Dictionary_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasEnoughWords)));
+        }
+
+        #endregion
+
+        #region Card generation
 
         public bool AddCards()
         {
-            Items.Clear();
-
-            var numberOfCards = GetNumberOfCards();
-            if (!HasEnoughWords())
+            if (!HasEnoughWords)
                 return false;
 
+            Items.Clear();
+            var numberOfCards = GetNumberOfCards();
+            var typeMap = GetCardTypeMap(numberOfCards);
+            var words = Dictionary
+                .Select(w => ((Guid guid, string word))(Guid.NewGuid(), w.Text))
+                .OrderBy(w => w.guid)
+                .Take(numberOfCards)
+                .Select(w => w.word);
+
+            foreach (var word in words)
+            {
+                typeMap.TryGetValue(Items.Count, out CardType type);
+                Items.Add(new Card(word, type));
+            }
+
+            UpdateRows();
+
+            return true;
+        }
+
+        Dictionary<int, CardType> GetCardTypeMap(int numberOfCards)
+        {
             var random = new Randomizer(numberOfCards - 1);
             var types = new Dictionary<int, CardType>
             {
@@ -71,22 +105,10 @@ namespace CodeNames
                 types.Add(random.Next(), SecondTeam);
             }
 
-            var words = Dictionary
-                .Select(w => ((Guid guid, string word))(Guid.NewGuid(), w.Text))
-                .OrderBy(w => w.guid)
-                .Take(numberOfCards)
-                .Select(w => w.word);
-
-            foreach (var word in words)
-            {
-                types.TryGetValue(Items.Count, out CardType type);
-                Items.Add(new Card(word, type));
-            }
-
-            UpdateRows();
-
-            return true;
+            return types;
         }
+
+        #endregion
 
         #region Rows
 

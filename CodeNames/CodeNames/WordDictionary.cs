@@ -9,7 +9,7 @@ namespace CodeNames
             NewWord();
         }
 
-        string[] GetDefaultWords()
+        string[] GetRandomWords()
         {
             return ("Bucket,Sack,Leaf,Family,Relative,Freak,Chicken,Adventure,Heated,Sausage,Bird," +
                     "Shark,Lone,Chilli,Point,Toe,Light,Greet,Rule,Fear,Mennonite,Action,Drive,Leave," +
@@ -30,9 +30,11 @@ namespace CodeNames
                     "Deoderant,Russia,Blanket,Makeup,Phone,Dictionary,Monkey,Banana,Moccasins").Split(',');
         }
 
-        public void AddDefaultWords()
+        public void AddRandomWords()
         {
-            var words = GetDefaultWords();
+            Clear();
+
+            var words = GetRandomWords();
             var randomizer = new Randomizer(words.Length);
             for (int i = 0; i < 30; i++)
             {

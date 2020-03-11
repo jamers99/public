@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace CodeNames.Uwp
+namespace CodeNames.Uno
 {
     public sealed partial class DictionaryPage : ContentControl
     {
