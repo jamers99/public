@@ -120,6 +120,13 @@
     <None Include="CodeNames.Uno.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\lockscreenlogo.scale-200.png" />
+    <Content Include="Assets\splashscreen.scale-200.png" />
+    <Content Include="Assets\square150x150logo.scale-200.png" />
+    <Content Include="Assets\square44x44logo.scale-200.png" />
+    <Content Include="Assets\square44x44logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\storelogo.png" />
+    <Content Include="Assets\wide310x150logo.scale-200.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <Import Project="..\CodeNames.Uno.Shared\CodeNames.Uno.Shared.projitems" Label="Shared" Condition="Exists('..\CodeNames.Uno.Shared\CodeNames.Uno.Shared.projitems')" />
