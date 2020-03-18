@@ -9,7 +9,7 @@ namespace CodeNames.Uno.Droid
     [Activity(
             MainLauncher = true,
             ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize,
-            WindowSoftInputMode = SoftInput.AdjustPan | SoftInput.StateHidden
+            WindowSoftInputMode = SoftInput.AdjustResize | SoftInput.StateHidden
         )]
     public class MainActivity : Windows.UI.Xaml.ApplicationActivity
     {

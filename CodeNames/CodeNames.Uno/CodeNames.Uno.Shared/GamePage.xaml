@@ -1,32 +1,50 @@
 ﻿<ContentControl x:Class="CodeNames.Uno.GamePage"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:android="http://uno.ui/android"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:local="using:CodeNames.Uno"
                 xmlns:logic="using:CodeNames"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
-                mc:Ignorable="d">
+                mc:Ignorable="d android">
 
     <Viewbox Margin="0 20 0 0">
-        <ItemsControl ItemsSource="{x:Bind Game.RowsOfCards}">
-            <ItemsControl.ItemTemplate>
+        <ListView android:Height="550"
+                  android:HorizontalAlignment="Center"
+                  android:Width="550"
+                  ItemsSource="{x:Bind Game.RowsOfCards}"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding}">
-                        <ItemsControl.ItemsPanel>
+                    <ListView ItemsSource="{Binding}"
+                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                              SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <ItemsStackPanel Orientation="Horizontal" />
+                                <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
                             <DataTemplate x:DataType="logic:Card">
                                 <local:CardTile Card="{x:Bind}" />
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            </ListView.ItemTemplate>
+        </ListView>
     </Viewbox>
 </ContentControl>

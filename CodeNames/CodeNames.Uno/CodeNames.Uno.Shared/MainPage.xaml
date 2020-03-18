@@ -10,13 +10,16 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       RequestedTheme="Light"
       mc:Ignorable="d">
+
     <tk:DropShadowPanel Name="uiDrop"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         BlurRadius="50"
                         ShadowOpacity=".2">
-        <Grid Padding="40 30" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Name="uiDropContent"
+              Padding="20 15"
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -65,6 +68,7 @@
                     <VisualState.Setters>
                         <Setter Target="uiDrop.Margin" Value="75" />
                         <Setter Target="uiDrop.HorizontalAlignment" Value="Center" />
+                        <Setter Target="uiDropContent.Padding" Value="40 35" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

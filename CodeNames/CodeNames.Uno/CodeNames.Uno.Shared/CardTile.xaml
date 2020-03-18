@@ -14,9 +14,13 @@
     <Grid>
         <Button HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Click="Tile_Click"
-                Content="{x:Bind Card.Word}"
-                FontSize="18" />
+                Click="Tile_Click">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="18"
+                       Text="{x:Bind Card.Word}"
+                       TextWrapping="Wrap" />
+        </Button>
         <!--  Style="{ThemeResource ButtonRevealStyle}"  -->
 
         <Rectangle HorizontalAlignment="Stretch"
@@ -29,6 +33,7 @@
                    FontSize="18"
                    Foreground="{x:Bind Card.Type, Converter={StaticResource TypeToForeground}}"
                    Text="{x:Bind Card.Word}"
+                   TextAlignment="Center"
                    TextWrapping="Wrap"
                    Visibility="{x:Bind Card.IsPreviewing}" />
     </Grid>

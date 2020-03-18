@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -17,6 +18,7 @@ namespace CodeNames.Uno
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
             Frame rootFrame = Window.Current.Content as Frame;
 
             if (rootFrame == null)
@@ -29,6 +31,7 @@ namespace CodeNames.Uno
             if (rootFrame.Content == null)
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
 
+            
             Window.Current.Activate();
         }
 
@@ -44,27 +47,6 @@ namespace CodeNames.Uno
                     {
                         { "Uno", LogLevel.Warning },
                         { "Windows", LogLevel.Warning },
-
-						// Debug JS interop
-						// { "Uno.Foundation.WebAssemblyRuntime", LogLevel.Debug },
-
-						// Generic Xaml events
-						// { "Windows.UI.Xaml", LogLevel.Debug },
-						// { "Windows.UI.Xaml.VisualStateGroup", LogLevel.Debug },
-						// { "Windows.UI.Xaml.StateTriggerBase", LogLevel.Debug },
-						// { "Windows.UI.Xaml.UIElement", LogLevel.Debug },
-
-						// Layouter specific messages
-						// { "Windows.UI.Xaml.Controls", LogLevel.Debug },
-						// { "Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug },
-						// { "Windows.UI.Xaml.Controls.Panel", LogLevel.Debug },
-						// { "Windows.Storage", LogLevel.Debug },
-
-						// Binding related messages
-						// { "Windows.UI.Xaml.Data", LogLevel.Debug },
-
-						// DependencyObject memory references tracking
-						// { "ReferenceHolder", LogLevel.Debug },
 					}
                 )
 #if DEBUG
