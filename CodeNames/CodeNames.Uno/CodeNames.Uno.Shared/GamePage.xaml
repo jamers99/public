@@ -9,22 +9,24 @@
                 VerticalContentAlignment="Stretch"
                 mc:Ignorable="d">
 
-    <ItemsControl Grid.Row="1" ItemsSource="{x:Bind Game.RowsOfCards}">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <ItemsControl ItemsSource="{Binding}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="logic:Card">
-                            <local:CardTile Card="{x:Bind}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+    <Viewbox Margin="0 20 0 0">
+        <ItemsControl ItemsSource="{x:Bind Game.RowsOfCards}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="logic:Card">
+                                <local:CardTile Card="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Viewbox>
 </ContentControl>

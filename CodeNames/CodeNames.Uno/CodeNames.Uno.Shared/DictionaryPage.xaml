@@ -20,57 +20,63 @@
             <TextBlock Opacity=".7" Style="{ThemeResource SubtitleTextBlockStyle}">Any word, make it random!</TextBlock>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1">
-            <ItemsControl ItemsSource="{x:Bind Game.Dictionary}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="logic:Word">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBox Width="200"
-                                     Margin="0 5"
-                                     HorizontalAlignment="Left"
-                                     Loaded="Word_Loaded"
-                                     Text="{x:Bind Text, Mode=TwoWay}" />
+        <ListView Grid.Row="1"
+                  ItemsSource="{x:Bind Game.Dictionary}"
+                  SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="logic:Word">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBox Width="200"
+                                 Margin="0 5"
+                                 HorizontalAlignment="Left"
+                                 Loaded="Word_Loaded"
+                                 Text="{x:Bind Text, Mode=TwoWay}" />
 
-                            <SymbolIcon Symbol="Clear" Tapped="Remove_Tapped" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                        <SymbolIcon Symbol="Clear" Tapped="Remove_Tapped" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ScrollViewer Grid.Row="2"
+                      Margin="0 0 0 -15"
+                      Padding="0 0 0 15"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <Button Padding="16 10"
+                        Click="NewWord_Click"
+                        CornerRadius="3">
+                    <StackPanel Orientation="Horizontal" Spacing="15">
+                        <SymbolIcon VerticalAlignment="Center" Symbol="Add" />
+                        <TextBlock VerticalAlignment="Center">New word</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Padding="16 10"
+                        Click="Done_Click"
+                        CornerRadius="3"
+                        IsEnabled="{x:Bind Game.HasEnoughWords, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal" Spacing="15">
+                        <SymbolIcon VerticalAlignment="Center" Symbol="Accept" />
+                        <TextBlock VerticalAlignment="Center">Done</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <Button Padding="16 10"
+                        Click="AddRandomWords_Click"
+                        CornerRadius="3">
+                    <StackPanel Orientation="Horizontal" Spacing="15">
+                        <SymbolIcon VerticalAlignment="Center" Symbol="Shuffle" />
+                        <TextBlock VerticalAlignment="Center">Random words</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
         </ScrollViewer>
-
-        <StackPanel Grid.Row="2"
-                    Orientation="Horizontal"
-                    Spacing="20">
-            <Button Padding="16 10"
-                    Click="NewWord_Click"
-                    CornerRadius="3">
-                <!--  Style="{ThemeResource ButtonRevealStyle}"  -->
-                <StackPanel Orientation="Horizontal" Spacing="15">
-                    <SymbolIcon VerticalAlignment="Center" Symbol="Add" />
-                    <TextBlock VerticalAlignment="Center">New word</TextBlock>
-                </StackPanel>
-            </Button>
-
-            <Button Padding="16 10"
-                    Click="Done_Click"
-                    CornerRadius="3"
-                    IsEnabled="{x:Bind Game.HasEnoughWords, Mode=OneWay}">
-                <!--  Style="{ThemeResource ButtonRevealStyle}"  -->
-                <StackPanel Orientation="Horizontal" Spacing="15">
-                    <SymbolIcon VerticalAlignment="Center" Symbol="Accept" />
-                    <TextBlock VerticalAlignment="Center">Done</TextBlock>
-                </StackPanel>
-            </Button>
-
-            <Button Padding="16 10"
-                    Click="AddRandomWords_Click"
-                    CornerRadius="3">
-                <!--  Style="{ThemeResource ButtonRevealStyle}"  -->
-                <StackPanel Orientation="Horizontal" Spacing="15">
-                    <SymbolIcon VerticalAlignment="Center" Symbol="Shuffle" />
-                    <TextBlock VerticalAlignment="Center">Random words</TextBlock>
-                </StackPanel>
-            </Button>
-        </StackPanel>
     </Grid>
 </ContentControl>

@@ -10,47 +10,64 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       RequestedTheme="Light"
       mc:Ignorable="d">
+    <tk:DropShadowPanel Name="uiDrop"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        BlurRadius="50"
+                        ShadowOpacity=".2">
+        <Grid Padding="40 30" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Margin="0 0 10 20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-    <Viewbox Margin="75">
-        <tk:DropShadowPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            BlurRadius="50"
-                            ShadowOpacity=".2">
-            <Grid Padding="40 30" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid Margin="0 0 10 20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <TextBlock IsTextSelectionEnabled="True" Style="{ThemeResource HeaderTextBlockStyle}">
+                    <Run Text="Game " /><Run Text="{x:Bind Game.Number}" />
+                </TextBlock>
 
-                    <TextBlock IsTextSelectionEnabled="True" Style="{ThemeResource HeaderTextBlockStyle}">
-                        <Run Text="Game " /><Run Text="{x:Bind Game.Number}" />
-                    </TextBlock>
-
-                    <SymbolIcon Grid.Column="1"
-                                Margin="15 0"
-                                PointerPressed="SymbolIcon_PointerPressed"
-                                PointerReleased="SymbolIcon_PointerReleased"
-                                Symbol="View" />
-                    <Button Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Click="New_Click"
-                            Content="New game"
-                            Style="{ThemeResource AccentButtonStyle}" />
-                </Grid>
-
-                <ContentControl x:Name="uiFrame"
-                                Grid.Row="1"
-                                Width="550"
-                                Height="550"
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch" />
+                <SymbolIcon Grid.Column="1"
+                            Margin="15 0"
+                            PointerPressed="SymbolIcon_PointerPressed"
+                            PointerReleased="SymbolIcon_PointerReleased"
+                            Symbol="View" />
+                <Button Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Click="New_Click"
+                        Content="New game"
+                        Style="{ThemeResource AccentButtonStyle}" />
             </Grid>
-        </tk:DropShadowPanel>
-    </Viewbox>
+
+            <ContentControl x:Name="uiFrame"
+                            Grid.Row="1"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch">
+                <ContentControl.Transitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </ContentControl.Transitions>
+            </ContentControl>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="uiDrop.Margin" Value="75" />
+                        <Setter Target="uiDrop.HorizontalAlignment" Value="Center" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </tk:DropShadowPanel>
 </Page>
