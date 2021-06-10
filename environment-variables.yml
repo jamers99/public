@@ -3,9 +3,6 @@ trigger: none
 pool:
   vmImage: windows-latest
 
-variables:
-  foo: "bar"
-
 steps:
 - script: echo %FOO%
   displayName: 'Test the var'
