@@ -1,0 +1,17 @@
+trigger: none
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  foo: "bar"
+
+steps:
+- script: echo %FOO%
+  displayName: 'Test the var'
+
+- task: DotNetCoreCLI@2
+  displayName: Run the test
+  inputs:
+    command: 'test'
+    projects: 'EnvironmentVariableTest/EnvironmentVariableTest.csproj'
