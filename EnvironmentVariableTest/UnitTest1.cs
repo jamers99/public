@@ -13,7 +13,7 @@ namespace EnvironmentVariableTest
         [Test]
         public void Test1()
         {
-            Assert.That(Environment.GetEnvironmentVariable("FOO"), Is.EqualTo("bar"));
+            Assert.That(Environment.GetEnvironmentVariable("foo"), Is.EqualTo("bar"));
         }
     }
 }
