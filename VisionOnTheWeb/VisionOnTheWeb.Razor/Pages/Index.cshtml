@@ -1,0 +1,15 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Vision</h1>
+    <p>Vision is logged in: @Model.Vision.IsLoggedIn</p>
+    <h2>Customer @Model.Vision.Customer?.Title</h2>
+    @foreach (var property in Model.Vision.CustomerProperties)
+    {
+        <p>@property.Label: @property.PropertyValue</p>
+    }
+</div>

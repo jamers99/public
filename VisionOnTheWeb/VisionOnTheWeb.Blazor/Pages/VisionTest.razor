@@ -1,0 +1,27 @@
+﻿@page "/visiontest"
+@inject HttpClient Http
+
+<PageTitle>Vision test</PageTitle>
+
+<h3>Vision</h3>
+<button class="btn btn-primary" @onclick="Login">Login</button>
+<p role="status">@loggedInStatus</p>
+<h2 role="status">Customer: @vision.Customer?.Title</h2>
+@foreach (var property in vision.CustomerProperties)
+{
+    <p>@property.Label: @property.PropertyValue</p>
+}
+
+@code {
+    VisionWeb vision = new VisionWeb();
+    string loggedInStatus;
+    async Task Login()
+    {
+        await vision.Login();
+        await vision.GetCustomer();
+        if (vision.IsLoggedIn)
+            loggedInStatus = "Logged in!";
+        else
+            loggedInStatus = "Log in failed...";
+    }
+}
