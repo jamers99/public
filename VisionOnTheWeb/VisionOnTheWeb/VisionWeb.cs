@@ -11,17 +11,17 @@ namespace VisionOnTheWeb
             new WebApp().InitClientManager();
         }
 
-        public async Task Login()
+        public async Task Login(string server = "localhost", string password = "Pw123456")
         {
             IsLoggedIn = Global.ClientManager.IsLoggedIn;
             if (IsLoggedIn)
                 return;
 
             LoginManager login = Global.ClientManager.LoginManager;
-            login.LoginData.Server = "localhost";
+            login.LoginData.Server = server;
             login.LoginData.CompanyId = "Demo";
             login.LoginData.Username = "Administrator";
-            login.UnencryptedPassword = "Pw123456";
+            login.UnencryptedPassword = password;
             await login.LoginAsync();
             IsLoggedIn = Global.ClientManager.IsLoggedIn;
         }

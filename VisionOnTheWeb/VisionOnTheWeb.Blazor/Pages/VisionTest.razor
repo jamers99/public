@@ -1,9 +1,11 @@
 ﻿@page "/visiontest"
-@inject HttpClient Http
+@using VisionOnTheWeb
 
 <PageTitle>Vision test</PageTitle>
 
 <h3>Vision</h3>
+<input @bind="server"/>
+<input @bind="password"/>
 <button class="btn btn-primary" @onclick="Login">Login</button>
 <p role="status">@loggedInStatus</p>
 <h2 role="status">Customer: @vision.Customer?.Title</h2>
@@ -14,10 +16,12 @@
 
 @code {
     VisionWeb vision = new VisionWeb();
-    string loggedInStatus;
+    string loggedInStatus = "Not attempted";
+    string server = "localhost";
+    string password = "Pw123456";
     async Task Login()
     {
-        await vision.Login();
+        await vision.Login(server, password);
         await vision.GetCustomer();
         if (vision.IsLoggedIn)
             loggedInStatus = "Logged in!";
