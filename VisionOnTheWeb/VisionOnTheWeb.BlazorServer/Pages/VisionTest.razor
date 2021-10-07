@@ -11,8 +11,9 @@
 <h2 role="status">Customer: @vision.Customer?.Title</h2>
 @foreach (var property in vision.CustomerProperties)
 {
-    <p>@property.Label: @property.PropertyValue</p>
+    <p>@property.Label: <input @bind="property.PropertyValue"/></p>
 }
+<button class="btn btn-primary" @onclick="Save">Save</button>
 
 @code {
     VisionWeb vision = new VisionWeb();
@@ -27,5 +28,9 @@
             loggedInStatus = "Logged in!";
         else
             loggedInStatus = "Log in failed...";
+    }
+    async Task Save()
+    {
+        await vision.Save();
     }
 }

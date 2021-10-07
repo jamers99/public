@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VisionOnTheWeb\VisionOnTheWeb.csproj" />
     <ProjectReference Include="..\VisionOnTheWeb\VisionOnTheWeb.Razor.csproj" />
   </ItemGroup>
 

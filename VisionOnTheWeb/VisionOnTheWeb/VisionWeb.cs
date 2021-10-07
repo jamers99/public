@@ -38,16 +38,24 @@ namespace VisionOnTheWeb
             Customer = new PageContext(context, fetchPlan, delayedFetch: true);
 
             CustomerProperties.Clear();
-            var generalProperties = new PropertyGroupContext(Customer, "General");
-            foreach (var link in generalProperties.PropertyGroupLinks.Where(l => l.Kind == Eagle.Framework.Common.MetaData.PropertyGroupLinkKind.Property))
-                CustomerProperties.Add(new PropertyContext(generalProperties, link));
+            var general = new PropertyGroupContext(Customer, "General");
+            foreach (var path in new[] { "PrimaryContact.FullName", "PrimaryContact.MailingAddress.City" })
+            {
+                var property = new PropertyContext<string>(general, path);
+                CustomerProperties.Add(property);
+            }
 
             await Customer.RequestDataAsync();
         }
 
+        public async Task Save()
+        {
+            await Customer.SaveCommand.ExecuteAsync(this);
+        }
+
         public PageContext Customer { get; set; }
 
-        public ObservableCollection<PropertyContext> CustomerProperties { get; } = new ObservableCollection<PropertyContext>();
+        public List<PropertyContext<string>> CustomerProperties { get; } = new List<PropertyContext<string>>();
 
         public bool IsLoggedIn { get; private set; }
     }

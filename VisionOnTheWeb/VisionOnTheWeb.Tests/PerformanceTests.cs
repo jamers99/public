@@ -2,16 +2,15 @@ using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace VisionOnTheWeb.Tests
 {
-    public class UnitTest1
+    public class PerformanceTests
     {
         [Fact]
-        public async Task Test1()
+        public async Task Performance_Customer_Read()
         {
             var web = new VisionWeb();
             await web.Login();
