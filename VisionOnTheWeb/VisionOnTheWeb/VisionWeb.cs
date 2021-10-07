@@ -1,6 +1,7 @@
 ﻿using Eagle.Framework.Client.Manager;
 using Eagle.Framework.Client.UI;
 using Eagle.Framework.Common.Data;
+using System.Collections.ObjectModel;
 
 namespace VisionOnTheWeb
 {
@@ -32,10 +33,11 @@ namespace VisionOnTheWeb
                 return;
 
             var context = await Global.ClientManager.Session.CreateContextAsync("GetCustomer");
-            var customerMetaData = context.GetEntityMetaData("SalesInvoice");
+            var customerMetaData = context.GetEntityMetaData("Customer");
             var fetchPlan = FetchPlan.GetEntity(customerMetaData);
             Customer = new PageContext(context, fetchPlan, delayedFetch: true);
 
+            CustomerProperties.Clear();
             var generalProperties = new PropertyGroupContext(Customer, "General");
             foreach (var link in generalProperties.PropertyGroupLinks.Where(l => l.Kind == Eagle.Framework.Common.MetaData.PropertyGroupLinkKind.Property))
                 CustomerProperties.Add(new PropertyContext(generalProperties, link));
@@ -45,7 +47,7 @@ namespace VisionOnTheWeb
 
         public PageContext Customer { get; set; }
 
-        public List<PropertyContext> CustomerProperties { get; } = new List<PropertyContext>();
+        public ObservableCollection<PropertyContext> CustomerProperties { get; } = new ObservableCollection<PropertyContext>();
 
         public bool IsLoggedIn { get; private set; }
     }
