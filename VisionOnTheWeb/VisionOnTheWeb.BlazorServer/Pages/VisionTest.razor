@@ -30,7 +30,7 @@
 
     void Vision_PropertyUpdated(object? s, EventArgs e)
     {
-        StateHasChanged();
+        _ = InvokeAsync(() => StateHasChanged());
     }
 
     async Task GetCustomer()
