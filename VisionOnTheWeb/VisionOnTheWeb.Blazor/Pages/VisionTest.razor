@@ -4,28 +4,42 @@
 <PageTitle>Vision test</PageTitle>
 
 <h3>Vision</h3>
-<input @bind="server"/>
-<input @bind="password"/>
+<input @bind="server" />
+<input @bind="password" />
 <button class="btn btn-primary" @onclick="Login">Login</button>
-<p role="status">@loggedInStatus</p>
-<h2 role="status">Customer: @vision.Customer?.Title</h2>
+<p role="status">@vision.Message</p>
+<button class="btn btn-primary" @onclick="GetCustomer">Get first customer</button>
+<h2 role="status">@vision.Customer?.Title</h2>
 @foreach (var property in vision.CustomerProperties)
 {
-    <p>@property.Label: @property.PropertyValue</p>
+    <p>@property.Label: <input @bind="property.PropertyValue" /></p>
 }
+<button class="btn btn-primary" @onclick="Save">Save</button>
 
 @code {
     VisionWeb vision = new VisionWeb();
     string loggedInStatus = "Not attempted";
     string server = "localhost";
     string password = "Pw123456";
+
     async Task Login()
     {
         await vision.Login(server, password);
+        vision.PropertyUpdated += Vision_PropertyUpdated;
+    }
+
+    void Vision_PropertyUpdated(object? s, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    async Task GetCustomer()
+    {
         await vision.GetCustomer();
-        if (vision.IsLoggedIn)
-            loggedInStatus = "Logged in!";
-        else
-            loggedInStatus = "Log in failed...";
+    }
+
+    async Task Save()
+    {
+        await vision.Save();
     }
 }
