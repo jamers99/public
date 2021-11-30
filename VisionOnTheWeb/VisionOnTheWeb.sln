@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisionOnTheWeb.Blazor", "Vi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisionOnTheWeb.Razor", "VisionOnTheWeb.Razor\VisionOnTheWeb.Razor.csproj", "{3E28AD1B-60E0-40B1-BF59-CFE78EC3C5C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisionOnTheWeb", "VisionOnTheWeb\VisionOnTheWeb.csproj", "{1AD6E9B4-610C-4075-BB26-469A2CC758BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisionOnTheWeb", "VisionOnTheWeb\VisionOnTheWeb.csproj", "{1AD6E9B4-610C-4075-BB26-469A2CC758BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisionOnTheWeb.BlazorServer", "VisionOnTheWeb.BlazorServer\VisionOnTheWeb.BlazorServer.csproj", "{9C57E8A8-E49C-4DE8-AA7C-46E185E51B49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisionOnTheWeb.BlazorServer", "VisionOnTheWeb.BlazorServer\VisionOnTheWeb.BlazorServer.csproj", "{9C57E8A8-E49C-4DE8-AA7C-46E185E51B49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
