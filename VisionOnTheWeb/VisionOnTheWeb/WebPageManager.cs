@@ -32,10 +32,6 @@ namespace VisionOnTheWeb
             return new List<IPage>();
         }
 
-        public override void OpenPage(IPage afterPage, IPage page, PageIdentifier pageIdentifier = null)
-        {
-        }
-
         public override Task RunOnUIThread(Action action)
         {
             action();
@@ -54,6 +50,11 @@ namespace VisionOnTheWeb
         protected override Task HandleClientActionInternal(string uri)
         {
             return Task.CompletedTask;
+        }
+
+        protected override void OpenPageInternal(IPage afterPage, IPage page, PageIdentifier pageIdentifier)
+        {
+            throw new NotImplementedException();
         }
 
         protected override IPage ShowPage(IPage afterPage, IPage page, PageIdentifier newPageRequest)
