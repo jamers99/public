@@ -1,6 +1,8 @@
-﻿using Eagle.Framework.Client.Manager;
+﻿using Eagle.Framework.Client.Data;
+using Eagle.Framework.Client.Manager;
 using Eagle.Framework.Client.UI;
 using Eagle.Framework.Common.Data;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -57,6 +59,41 @@ namespace VisionOnTheWeb
             }
 
             await Customer.RequestDataAsync();
+        }
+
+        public async Task GetInvoice()
+        {
+            if (!IsLoggedIn)
+                return;
+
+            var context = await Global.ClientManager.Session.CreateContextAsync("GetInvoice");
+            var customerMetaData = context.GetEntityMetaData("SalesInvoice");
+            var fetchPlan = FetchPlan.GetEntity(customerMetaData);
+            var invoiceContext = new PageContext(context, fetchPlan, delayedFetch: true);
+            var invoiceDetailsContext = new PropertyContext(invoiceContext, "TopLevelDetails");
+
+
+            foreach (var entity in (IEnumerable)invoiceDetailsContext.PropertyValue)
+            {
+                var entityContext = new BaseUIContext(invoiceDetailsContext, (DynamicEntity)entity);
+                var pg = new PropertyGroupContext(entityContext, "MyCustomDetialsGroup"); //TODO should be element binding
+                //blazor code: new PropertyPanel(pg);
+            }
+
+            var invoiceDetailsContext2 = new EntityCollectionPropertyContext<ItemPropertyGroupContext>(invoiceContext, "TopLevelDetails", (c, e) => new ItemPropertyGroupContext(c, e));
+            foreach (var entity in invoiceDetailsContext2.Items)
+            {
+                //blazor code: new PropertyPanel(entity.Group);
+            }
+        }
+
+        public class ItemPropertyGroupContext : BaseUIContext
+        {
+            public PropertyGroupContext Group { get; set; }
+            public ItemPropertyGroupContext(BaseUIContext parentCollection, DynamicEntity collectionItem) : base(parentCollection, collectionItem)
+            {
+                Group = new PropertyGroupContext(this, "MyCustomDetialsGroup"); //TODO should be element binding
+            }
         }
 
         public event EventHandler? PropertyUpdated;
