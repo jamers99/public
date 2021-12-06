@@ -1,0 +1,17 @@
+﻿@page "/types"
+
+<PageTitle>Type converters</PageTitle>
+
+<h1>Types</h1>
+
+<p>"@TypesThing.MyProperty" bound to Object:  <input @bind="TypesThing.MyPropertyBindable" /></p>
+<button class="btn btn-primary" @onclick="ToInt">Int</button>
+<button class="btn btn-primary" @onclick="ToStr">String</button>
+
+
+@code {
+    public VisionOnTheWeb.TypeTest TypesThing { get; } = new VisionOnTheWeb.TypeTest();
+
+    public void ToInt() => TypesThing.MyProperty = 1;
+    public void ToStr() => TypesThing.MyProperty = "Holla";
+}
