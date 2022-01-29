@@ -7,18 +7,18 @@ namespace CodeNames.Uno
 {
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        Game game;
-        public Game Game
-        {
-            get => game;
-            set { game = value; OnPropertyChanged(); }
-        }
-
         public MainPage()
         {
             InitializeComponent();
 
             NewGame();
+        }
+
+        Game game;
+        public Game Game
+        {
+            get => game;
+            set { game = value; OnPropertyChanged(); }
         }
 
         void NewGame()
@@ -35,6 +35,8 @@ namespace CodeNames.Uno
         void SymbolIcon_PointerPressed(object sender, PointerRoutedEventArgs e) => Game.IsPreviewing = true;
 
         void SymbolIcon_PointerReleased(object sender, PointerRoutedEventArgs e) => Game.IsPreviewing = false;
+
+        void ThreeTeams_Tapped(object sender, TappedRoutedEventArgs e) => Game.ThreeTeams = !Game.ThreeTeams;
 
         #region Notify
 

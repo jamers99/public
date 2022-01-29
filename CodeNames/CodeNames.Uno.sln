@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28606.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32113.165
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeNames", "CodeNames\CodeNames.csproj", "{26F7D673-E41E-4B9C-94C0-0C79B31B9B4F}"
 EndProject
@@ -21,6 +21,7 @@ Global
 		CodeNames.Uno\CodeNames.Uno.Shared\CodeNames.Uno.Shared.projitems*{2f8e97da-a7cc-4f58-9d9a-ab56d9c56ddd}*SharedItemsImports = 4
 		CodeNames.Uno\CodeNames.Uno.Shared\CodeNames.Uno.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
 		CodeNames.Uno\CodeNames.Uno.Shared\CodeNames.Uno.Shared.projitems*{a41e3ae1-b64f-487e-9ffc-cf65dccb1d26}*SharedItemsImports = 4
+		CodeNames.Uno\CodeNames.Uno.Shared\CodeNames.Uno.Shared.projitems*{ac2a1335-c666-4359-a146-9b1579b61067}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

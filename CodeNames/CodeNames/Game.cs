@@ -39,6 +39,13 @@ namespace CodeNames
 
         public int BoardSize { get; }
 
+        bool threeTeams;
+        public bool ThreeTeams
+        {
+            get => threeTeams;
+            set { threeTeams = value; OnPropertyChanged(); }
+        }
+
         CardType FirstTeam { get; }
 
         CardType SecondTeam { get; }
@@ -69,7 +76,7 @@ namespace CodeNames
 
             Items.Clear();
             var numberOfCards = GetNumberOfCards();
-            var typeMap = GetCardTypeMap(numberOfCards);
+            var typeMap = GetCardTypeMap(numberOfCards, !ThreeTeams);
             var words = Dictionary
                 .Select(w => ((Guid guid, string word))(Guid.NewGuid(), w.Text))
                 .OrderBy(w => w.guid)
@@ -87,15 +94,13 @@ namespace CodeNames
             return true;
         }
 
-        Dictionary<int, CardType> GetCardTypeMap(int numberOfCards)
+        Dictionary<int, CardType> GetCardTypeMap(int numberOfCards, bool addEnd)
         {
             var random = new Randomizer(numberOfCards - 1);
-            var types = new Dictionary<int, CardType>
-            {
-                {
-                    random.Next(), CardType.EndGame
-                }
-            };
+            var types = new Dictionary<int, CardType>();
+            if (addEnd)
+                types.Add(random.Next(), CardType.EndGame);
+
             for (int i = 0; i < FirstTeamCardCount; i++)
             {
                 types.Add(random.Next(), FirstTeam);
@@ -125,6 +130,19 @@ namespace CodeNames
                                .ToList();
                 RowsOfCards.Add(row);
             }
+        }
+
+        #endregion
+
+        #region Notify
+
+        /// <summary>
+        /// Fire the PropertyChanged event
+        /// </summary>
+        /// <param name="propertyName">Name of the property that changed (defaults from CallerMemberName)</param>
+        protected void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = "")
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
