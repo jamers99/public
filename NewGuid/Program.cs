@@ -1,0 +1,1 @@
+﻿TextCopy.ClipboardService.SetText(Guid.NewGuid().ToString());
