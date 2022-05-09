@@ -9,6 +9,7 @@
     <SelfContained>false</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRun>true</PublishReadyToRun>
+    <AssemblyName>guid</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
