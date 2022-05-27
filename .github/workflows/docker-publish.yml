@@ -1,4 +1,4 @@
-name: Ride-CI
+name: Ride-CD
 
 on:
   push:
