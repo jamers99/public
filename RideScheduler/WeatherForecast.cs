@@ -2,6 +2,8 @@ namespace RideScheduler;
 
 public class WeatherForecast
 {
+    public string? Test { get; set; }
+
     public DateTime Date { get; set; }
 
     public int TemperatureC { get; set; }
