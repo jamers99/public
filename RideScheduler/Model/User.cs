@@ -1,0 +1,7 @@
+﻿namespace RideScheduler.Model
+{
+    public class User
+    {
+        public string Name { get; set; } = "Test";
+    }
+}
