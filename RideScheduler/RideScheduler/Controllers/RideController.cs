@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using RideScheduler.Infrastructure;
 using RideScheduler.Model;
+using System.Text.Json;
 
 namespace RideScheduler.Controllers;
 
@@ -9,7 +11,7 @@ public class RideController : RideControllerBase
 {
     private readonly ILogger<RideController> _logger;
 
-    public RideController(ILogger<RideController> logger)
+    public RideController(ILogger<RideController> logger, IDataProvider dataProvider) : base(dataProvider)
     {
         _logger = logger;
     }
@@ -21,5 +23,11 @@ public class RideController : RideControllerBase
             return Unauthorized();
 
         return user.Name;
+    }
+
+    [HttpPost]
+    public async Task PostAsync(User user)
+    {
+        await DataProvider.CreateUserAsync(user);
     }
 }

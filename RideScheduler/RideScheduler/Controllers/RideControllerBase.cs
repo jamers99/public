@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RideScheduler.Infrastructure;
 using RideScheduler.Model;
 using System.Text;
 
@@ -6,6 +7,13 @@ namespace RideScheduler.Controllers
 {
     public class RideControllerBase : ControllerBase
     {
+        public RideControllerBase(IDataProvider dataProvider)
+        {
+            DataProvider = dataProvider;
+        }
+
+        public IDataProvider DataProvider { get; }
+
         public async Task<User?> GetUserAsync()
         {
             if (Request.Headers.TryGetValue("Authorization", out var auth))
@@ -14,7 +22,7 @@ namespace RideScheduler.Controllers
                 var token = Encoding.UTF8.GetString(Convert.FromBase64String(base64)).Split(':');
                 var username = token[0];
                 var password = token[1];
-                return new User() { Name = username };
+                return await DataProvider.GetUserAsync(username, password);
             }
 
             return null;
