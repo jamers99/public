@@ -3,7 +3,7 @@ using RideScheduler.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IDataProvider>(new SqlDataProvider());
+builder.Services.AddSingleton<IDataProvider>(new CosmosDataProvider(builder.Configuration));
 builder.Services.AddControllers();
 
 var app = builder.Build();

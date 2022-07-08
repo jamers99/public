@@ -2,15 +2,16 @@
 {
     public class Trip
     {
-        User User { get; set; }
+        public Guid Id { get; set; }
+        public Rider User { get; set; }
 
-        DateTime Date { get; set; }
-        DayOfWeek DayOfWeek { get; set; }
+        public DateTime Date { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
 
-        TimeSpan ArriveBegin { get; set; }
-        TimeSpan ArriveEnd { get; set; }
+        public TimeSpan ArriveBegin { get; set; }
+        public TimeSpan ArriveEnd { get; set; }
 
-        TimeSpan ReturnBegin { get; set; }
-        TimeSpan ReturnEnd { get; set; }
+        public TimeSpan ReturnBegin { get; set; }
+        public TimeSpan ReturnEnd { get; set; }
     }
 }

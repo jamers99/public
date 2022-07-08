@@ -14,7 +14,7 @@ namespace RideScheduler.Controllers
 
         public IDataProvider DataProvider { get; }
 
-        public async Task<User?> GetUserAsync()
+        public async Task<Rider?> GetUserAsync()
         {
             if (Request.Headers.TryGetValue("Authorization", out var auth))
             {
@@ -22,7 +22,7 @@ namespace RideScheduler.Controllers
                 var token = Encoding.UTF8.GetString(Convert.FromBase64String(base64)).Split(':');
                 var username = token[0];
                 var password = token[1];
-                return await DataProvider.GetUserAsync(username, password);
+                return await DataProvider.GetRiderAsync(username, password);
             }
 
             return null;

@@ -19,15 +19,15 @@ public class RideController : RideControllerBase
     [HttpGet]
     public async Task<ActionResult<string>> GetAsync()
     {
-        if (await GetUserAsync() is not User user)
+        if (await GetUserAsync() is not Rider user)
             return Unauthorized();
 
         return user.Name;
     }
 
     [HttpPost]
-    public async Task PostAsync(User user)
+    public async Task PostAsync(Rider user)
     {
-        await DataProvider.CreateUserAsync(user);
+        await DataProvider.CreateRiderAsync(user);
     }
 }
