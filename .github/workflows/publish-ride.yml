@@ -13,6 +13,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'RideScheduler/RideScheduler/appsettings.json'
+        env:
+          ConnectionStrings.CosmosUri: https://ridescheduler.documents.azure.com:443/
+          ConnectionStrings.CosmosKey: ${{ secrets.cosmos_key }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
