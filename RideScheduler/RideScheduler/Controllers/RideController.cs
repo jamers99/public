@@ -11,7 +11,7 @@ public class RideController : RideControllerBase
 {
     private readonly ILogger<RideController> _logger;
 
-    public RideController(ILogger<RideController> logger, IDataProvider dataProvider) : base(dataProvider)
+    public RideController(ILogger<RideController> logger, DataProvider dataProvider) : base(dataProvider)
     {
         _logger = logger;
     }
@@ -19,15 +19,15 @@ public class RideController : RideControllerBase
     [HttpGet]
     public async Task<ActionResult<string>> GetAsync()
     {
-        if (await GetUserAsync() is not Rider user)
+        if (await GetUserAsync() is not Rider rider)
             return Unauthorized();
 
-        return user.Name;
+        return rider.Username;
     }
 
     [HttpPost]
-    public async Task PostAsync(Rider user)
+    public async Task PostAsync(Rider rider, string password)
     {
-        await DataProvider.CreateRiderAsync(user);
+        await DataProvider.CreateRiderAsync(rider, password);
     }
 }

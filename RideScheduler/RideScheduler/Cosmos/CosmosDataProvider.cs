@@ -3,9 +3,9 @@ using RideScheduler.Infrastructure;
 using RideScheduler.Model;
 using System.Text.Json;
 
-namespace RideScheduler.Data
+namespace RideScheduler.Cosmos
 {
-    public class CosmosDataProvider : IDataProvider
+    public class CosmosDataProvider : DataProvider
     {
         public CosmosDataProvider(IConfiguration config)
         {
@@ -25,12 +25,12 @@ namespace RideScheduler.Data
             Trips = await Database.CreateContainerIfNotExistsAsync(nameof(Trip), $"/{nameof(Trip.RiderId)}");
         }
 
-        public async Task CreateRiderAsync(Rider user)
+        protected override async Task CreateRiderAsync(Rider user)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Rider?> GetRiderAsync(string username, string password)
+        protected override async Task<Rider?> GetRiderAsync(string username)
         {
             throw new NotImplementedException();
         }

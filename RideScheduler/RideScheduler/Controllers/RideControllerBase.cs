@@ -7,12 +7,12 @@ namespace RideScheduler.Controllers
 {
     public class RideControllerBase : ControllerBase
     {
-        public RideControllerBase(IDataProvider dataProvider)
+        public RideControllerBase(DataProvider dataProvider)
         {
             DataProvider = dataProvider;
         }
 
-        public IDataProvider DataProvider { get; }
+        public DataProvider DataProvider { get; }
 
         public async Task<Rider?> GetUserAsync()
         {
