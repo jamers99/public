@@ -2,7 +2,7 @@ using RideScheduler.Model;
 
 namespace RideScheduler.Tests
 {
-    public class Tests : TestBase
+    public class DataProviderTests : TestBase
     {
         [Test]
         public async Task Rider_WriteRead()
