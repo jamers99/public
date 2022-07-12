@@ -24,5 +24,11 @@ namespace RideScheduler.Tests
             var foundRider = await DataProvider.GetRiderAsync("Test", "pw");
             Assert.That(foundRider, Is.Not.Null, "Username and password correct");
         }
+
+        [Test]
+        public async Task Trips_WriteRead()
+        {
+            var rider = new Trip() { RiderUsername = "Test" };
+        }
     }
 }
