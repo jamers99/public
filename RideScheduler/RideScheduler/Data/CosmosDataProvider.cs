@@ -21,8 +21,8 @@ namespace RideScheduler.Data
         async Task InitializeAsync()
         {
             Database = await CosmosClient.CreateDatabaseIfNotExistsAsync("RideScheduler");
-            Riders = await Database.CreateContainerIfNotExistsAsync(nameof(Rider), $"/{nameof(Rider.Id)}");
-            Trips = await Database.CreateContainerIfNotExistsAsync(nameof(Trip), $"/{nameof(Trip.Id)}");
+            Riders = await Database.CreateContainerIfNotExistsAsync(nameof(Rider), $"/{nameof(Rider.GroupId)}");
+            Trips = await Database.CreateContainerIfNotExistsAsync(nameof(Trip), $"/{nameof(Trip.RiderId)}");
         }
 
         public async Task CreateRiderAsync(Rider user)

@@ -3,8 +3,7 @@
     public class Rider
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-
-        public List<Trip> WeeklyTrips { get; } = new List<Trip>();
+        public string? Name { get; set; }
+        public Guid GroupId { get; set; }
     }
 }

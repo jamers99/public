@@ -3,7 +3,7 @@
     public class Trip
     {
         public Guid Id { get; set; }
-        public Rider User { get; set; }
+        public Guid RiderId { get; set; }
 
         public DateTime Date { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
