@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meekly.Web", "Meekly.Web\Meekly.Web.csproj", "{44D52025-9369-4F74-9DE9-D591A59D7185}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meekly.Core", "Meekly.Core\Meekly.Core.csproj", "{2D59DDF2-5D61-49F9-9F5E-B9C15CE1CCA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44D52025-9369-4F74-9DE9-D591A59D7185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44D52025-9369-4F74-9DE9-D591A59D7185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44D52025-9369-4F74-9DE9-D591A59D7185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44D52025-9369-4F74-9DE9-D591A59D7185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D59DDF2-5D61-49F9-9F5E-B9C15CE1CCA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D59DDF2-5D61-49F9-9F5E-B9C15CE1CCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D59DDF2-5D61-49F9-9F5E-B9C15CE1CCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D59DDF2-5D61-49F9-9F5E-B9C15CE1CCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5FCA7D85-E6EA-494E-B46F-55798B3F46B3}
+	EndGlobalSection
+EndGlobal
