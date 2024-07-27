@@ -17,7 +17,7 @@
                         BlurRadius="50"
                         ShadowOpacity=".2">
         <Grid Name="uiDropContent"
-              Padding="20 15"
+              Padding="20,15"
               Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -38,7 +38,7 @@
                 <Grid Grid.Column="1" Tapped="ThreeTeams_Tapped">
                     <FontIcon Glyph="" />
                     <FontIcon Glyph=""
-                              RenderTransformOrigin=".35 .5"
+                              RenderTransformOrigin=".35,.5"
                               Visibility="{x:Bind Game.ThreeTeams, Mode=OneWay}">
                         <FontIcon.RenderTransform>
                             <ScaleTransform ScaleX="-1" />
@@ -47,7 +47,7 @@
                 </Grid>
 
                 <SymbolIcon Grid.Column="2"
-                            Margin="15 0"
+                            Margin="15,0"
                             PointerPressed="SymbolIcon_PointerPressed"
                             PointerReleased="SymbolIcon_PointerReleased"
                             Symbol="View" />
@@ -79,7 +79,7 @@
                     <VisualState.Setters>
                         <Setter Target="uiDrop.Margin" Value="75" />
                         <Setter Target="uiDrop.HorizontalAlignment" Value="Center" />
-                        <Setter Target="uiDropContent.Padding" Value="40 35" />
+                        <Setter Target="uiDropContent.Padding" Value="40,35" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
