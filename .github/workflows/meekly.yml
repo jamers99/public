@@ -25,6 +25,13 @@ jobs:
           registry: registry.hub.docker.com
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Publish container
         run: dotnet publish ./Meekly/Meekly.Web/Meekly.Web.csproj --os linux --arch x64 /t:PublishContainer
+
+      - name: Create Azure Revision
+        run: az containerapp update --name Meekly --resource-group Meekly --image jamers99/meekly:latest
