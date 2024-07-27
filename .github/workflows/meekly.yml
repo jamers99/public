@@ -1,0 +1,31 @@
+name: Fly Deploy Meekly
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Meekly/**'
+      - '.github/workflows/meekly.yml'
+
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    concurrency: deploy-meekly
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Publish container
+        run: |
+          cd ./Meekly/Meekly.Web
+          dotnet publish --os linux --arch x64 /t:PublishContainer
