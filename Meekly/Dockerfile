@@ -8,9 +8,9 @@ WORKDIR /src
 # copy everything
 COPY . ./
 # restore as distinct layers
-RUN dotnet restore
+RUN dotnet restore "Meekly.Web/Meekly.Web.csproj"
 # build and publish a release
-RUN dotnet publish -c Release -o /app
+RUN dotnet publish "Meekly.Web/Meekly.Web.csproj" -c Release -o /app
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_SDK_VERSION}
