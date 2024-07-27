@@ -2,9 +2,9 @@ name: Fly Deploy Meekly
 on:
   push:
     branches:
-      - main    # change to main if needed
+      - main
     paths:
-      - 'meekly/**'
+      - 'Meekly/**'
 
 jobs:
   deploy:
