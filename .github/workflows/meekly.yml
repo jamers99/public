@@ -1,4 +1,4 @@
-name: Fly Deploy Meekly
+name: Deploy Meekly
 on:
   push:
     branches:
@@ -20,12 +20,10 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: Log in to Docker Hub
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        uses: docker/login-action@master
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Publish container
-        run: |
-          cd ./Meekly/Meekly.Web
-          dotnet publish --os linux --arch x64 /t:PublishContainer
+        run: dotnet publish ./Meekly/Meekly.Web/Meekly.Web.csproj --os linux --arch x64 /t:PublishContainer
