@@ -1,5 +1,18 @@
 /////// APPIUM ////////
 
+class AppiumQueryBuilder : IQueryBuilder
+{
+    IQuery Id(string id) => new AppiumQuery(MobileBy.Id(id));
+    IQuery Text(string text) => new AppiumQuery(MobileBy.Text(text));
+    IQuery Type(string type) => new AppiumQuery(MobileBy.Class(type));
+}
+
+record AppiumQuery(By By) : IQuery
+{ }
+
+
+
+
 class AppiumControlFactory(
     IServiceProvider services) 
 {
@@ -27,12 +40,12 @@ class AppiumButton() : AppiumControl, IButton
     }
 }
 
-class AppiumControl(AppiumDriver driver) : IControl
+class AppiumControl(AppiumControlFactory controlFactory, IQueryBuilder queryBuilder) : IControl
 {
     ControlQuery Query {get; set;}
 
-    AppiumElement foundElement;
-    protected AppiumElement GetElement()
+    AppiumWebElement foundElement;
+    AppiumWebElement GetElement()
     {
         if (foundElement == null)
             foundElement = driver.Find(query);
@@ -40,16 +53,32 @@ class AppiumControl(AppiumDriver driver) : IControl
         return foundElement;
     }
 
-    T GetChild<T>(ControlQuery query) where T : IControl;
+    T GetChild<T>(ControlQuery query) where T : IControl
     {
-        
+        var appiumQuery = (AppiumQuery)query(queryBuilder);
+        var element = GetElement();
+        return controlFactory.Create<T>(element);
     }
 }
 
-class AppiumDriver()
+class Window(AppiumDriver driver) : IWindow
 {
-    AppiumElement Find(AppiumElement parent, ControlQuery query)
-    {
+    ControlQuery Query {get; set;}
 
+    T GetChild<T>(ControlQuery query) where T : IControl
+    {
+        var appiumQuery = (AppiumQuery)query(queryBuilder);
+        var element = driver.FindElement(appiumQuery);
+        return controlFactory.Create<T>(element);
+    }
+}
+
+class AppiumDriver() : WindowsDriver<AppiumWebElement>
+{
+    AppiumWebElement Find(ControlQuery query)
+    {
+        var parent = 
+        var appiumQuery = parser.ToBy(query);
+        return parent.FindElement(appiumQuery);
     }
 }

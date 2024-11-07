@@ -89,6 +89,10 @@ public class Tests(RunningStage stage) : TestBase<RunningStage>(stage)
         var page = Stage
             .SetupData("Customer", data)
             .Open();
+        
+        page.SelectTab("General")
+            .GetProperty<Text>("FirstName")
+            .EnterText("Kendall");
     }
 
     //The ui takes care of creating the entity because we're "clicking" (actually running hyperlink) the new button

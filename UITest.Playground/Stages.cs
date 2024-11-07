@@ -1,6 +1,24 @@
-
-class RunningStage(IEntitySetup setup, IServiceProvider services)
+class LoginStage(IWindow window)
 {
+    void Login()
+    {
+        window
+            .GetChild<Control>(q => q.Id("LoginPopup"))
+            .GetChild<IText>(q => q.Name("Username"))
+            .EnterText("admin");
+    }
+}
+
+
+
+
+class RunningStage(LoginStage loginStage, IEntitySetup setup, IServiceProvider services)
+{
+    void TestSetup()
+    {
+        loginStage.Login();
+    }
+
     public PageOpener SetupData(string entityName, JObject data)
     {
         JObject data = setup.CreateEntity(entityName, data);
@@ -17,17 +35,5 @@ class RunningStage(IEntitySetup setup, IServiceProvider services)
         var page = scope.Services.GetRequiredService<PageOpener>();
         page.Uri = "/new"; //bad but will be better
         return page;
-    }
-}
-
-class PageOpener(
-    IUriLauncher launcher, 
-    IWindow window)
-{
-    string Uri { get; set; }
-    IPage Open()
-    {
-        launcher.Invoke(Uri);
-        return window.GetChild<IPage>(new ControlQuery("page id or whatever"))
     }
 }
