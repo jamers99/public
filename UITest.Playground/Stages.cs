@@ -30,7 +30,7 @@ public class RunningStage(LoginStage loginStage, IEntitySetup setup, IServicePro
         
         var scope = services.CreateScope();
         var page = scope.Services.GetRequiredService<PageOpener>();
-        page.Uri = data["guid"]; //bad but will be better
+        page.Link = new Link(/*data["guid"]*/);
         return page;
     }
 
@@ -38,7 +38,7 @@ public class RunningStage(LoginStage loginStage, IEntitySetup setup, IServicePro
     {
         var scope = services.CreateScope();
         var page = scope.Services.GetRequiredService<PageOpener>();
-        page.Uri = "/new"; //bad but will be better
+        page.Link = new Link(/*"/new"*/);
         return page;
     }
 }
