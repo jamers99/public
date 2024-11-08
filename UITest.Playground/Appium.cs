@@ -86,7 +86,7 @@ class AppiumControl(IControlFactory controlFactory) : IControl
 }
 
 //this may need to be a wrapper, not sure if we can create the WindowsDriver at composition time for it to be in the container
-class AppiumDriver(IControlFactory controlFactory) : WindowsDriver<AppiumWebElement>, IWindowProvider
+class AppiumDriver(IControlFactory controlFactory) : WindowsDriver<AppiumWebElement>, IAppDriver
 {
     public IWindow GetWindow(ControlQueryExpression query) 
     {
