@@ -62,7 +62,7 @@ interface IAppDriver
     IWindow GetWindow();
 }
 
-class MainWindow(IAppDriver driver) //singleton
+class MainShell(IAppDriver driver) //singleton
 {
     IWindow foundWindow;
     IWindow FindWindow()
@@ -71,7 +71,7 @@ class MainWindow(IAppDriver driver) //singleton
             return foundWindow;
 
         var windowControl = driver.GetWindow();
-        return foundWindow = layoutFactory.Create<MainWindow>(windowControl);
+        return foundWindow = layoutFactory.Create<MainShell>(windowControl);
     }
 
     public Page GetPage(string id)
@@ -90,7 +90,7 @@ interface IPageOpener
     PageLink Link { get; set; }
 }
     
-class PageOpener(MainWindow window)
+class PageOpener(MainShell window)
 {
     public PageLink Link { get; set; }
     
