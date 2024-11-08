@@ -76,8 +76,8 @@ class MainWindow(IAppDriver driver) //singleton
 
     public Page GetPage(string id)
     {
-        driver.
-        var pageFrame = Frame.Child<IControl>(q => q.Id(id));
+        var window = FindWindow();
+        var pageFrame = window.Child<IControl>(q => q.Id(id));
         return layoutFactory.Create<Page>(pageFrame);
     }
 }
