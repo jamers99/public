@@ -47,7 +47,7 @@ public class TestExampleSandbox(RunningStage stage) : TestBase<RunningStage>(sta
             .Open();
         var fullName = page
             .SelectTab("General")
-            .GetProperty<Text>("PrimaryContact.FullName");
+            .GetProperty<ITextEntry>("PrimaryContact.FullName");
 
         fullName.EnterText("James Esh");
         Assert.Equal(fullName.Value, "James Esh");
@@ -61,11 +61,11 @@ public class TestExampleSandbox(RunningStage stage) : TestBase<RunningStage>(sta
             .Open();
         var details = page
             .SelectTab("Details")
-            .GetProperty<DataGrid>("Details");
+            .GetProperty<IDataGrid>("Details");
 
         var quantity = details
             .Rows[0]
-            .GetCell<Text>("Quantity");
+            .GetCell<ITextEntry>("Quantity");
         quantity.EnterText("5");
     }
 
@@ -94,7 +94,7 @@ public class TestExampleSandbox(RunningStage stage) : TestBase<RunningStage>(sta
 }
 
 
-
+//////////  SANDBOX PLAYING AROUND  //////////
 
 public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
 {
