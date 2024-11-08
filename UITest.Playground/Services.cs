@@ -39,10 +39,11 @@ class ControlFactory(IServiceProvider services) : IControlFactory
 }
 
 public interface IWindow : IControl
-{ //this is the top level control
+{
+    void Minimize();
 }
 
-public interface IText : IControl
+public interface ITextEntry : IControl
 {
     void EnterText(string text);
 }
@@ -52,7 +53,64 @@ public interface IButton : IControl
     void EnterText(string text);
 }
 
-#endif
+#endregion
+
+#region Window and page management
+
+interface IAppDriver
+{
+    IWindow GetWindow();
+}
+
+class MainWindow(IAppDriver driver) //singleton
+{
+    IWindow foundWindow;
+    IWindow FindWindow()
+    {
+        if (foundWindow != null)
+            return foundWindow;
+
+        var windowControl = driver.GetWindow();
+        return foundWindow = layoutFactory.Create<MainWindow>(windowControl);
+    }
+
+    public Page GetPage(string id)
+    {
+        driver.
+        var pageFrame = Frame.Child<IControl>(q => q.Id(id));
+        return layoutFactory.Create<Page>(pageFrame);
+    }
+}
+
+record PageLink(string Entity, string Identifier, string ExpectedTitle)
+
+class PageOpener(
+    MainWindow window,
+    LayoutFactory layoutFactory)
+{
+    PageLink Link { get; set; }
+    
+    Page Open()
+    {
+        var uri = GetUri();
+        InvokeUri(uri);
+
+        return window.GetPage(Link.ExpectedTitle);
+    }
+
+    void InvokeUri(string uri)
+    {
+        ProcessInfo.Start(uri);
+    }
+
+    string GetUri()
+    {
+        //todo get the protocal from the info singleton
+        return $"kobleerp:{Link.Entity}?{Link.Identifier}";
+    }
+}
+
+#endregion
 
 #region Layouts (stay the same even if we swap out Appium)
 
@@ -102,32 +160,3 @@ class Panel() : ILayout
 }
 
 #endregion
-
-record PageLink(string Entity, string Identifier, string ExpectedTitle)
-
-class PageOpener(
-    IWindow window,
-    LayoutFactory layoutFactory)
-{
-    PageLink Link { get; set; }
-    
-    Page Open()
-    {
-        var uri = GetUri();
-        InvokeUri(uri);
-
-        var pageFrame = window.Child<IControl>(q => q.Id(ExpectedId));
-        return layoutFactory.Create<Page>(pageFrame);
-    }
-
-    void InvokeUri(string uri)
-    {
-        ProcessInfo.Start(uri);
-    }
-
-    string GetUri()
-    {
-        //obviously we won't hard code the protocol
-        return $"kobleerp:{Link.Entity}?{Link.Identifier}";
-    }
-}

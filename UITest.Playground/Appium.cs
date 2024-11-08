@@ -17,11 +17,19 @@ record AppiumControlQuery(By By) : IControlQuery
 
 #region Controls
 
-class AppiumText(IControlFactory source) : AppiumControl(source), IText
+class AppiumWindow(IControlFactory controlFactory) : AppiumControl(controlFactory), IWindow
+{
+    void Minimize()
+    {
+        GetElement().Minimize();
+    }
+}
+
+class AppiumTextEntry(IControlFactory source) : AppiumControl(source), ITextEntry
 {
     void EnterText(string text)
     {
-        Element.EnterText()
+        GetElement().EnterText()
     }
 }
 
@@ -37,24 +45,37 @@ class AppiumButton(IControlFactory source) : AppiumControl(source), IButton
 
 #region Element finding
 
-interface IAppiumControlTreeNode //this may be better as a base class, but would like to avoid lots of inheritance if possible
+//if we see a way to avoid a base class, lets. 
+//It's hard to have more than one ctor dependency as it is, since all controls need to pass it along
+class AppiumControl(IControlFactory controlFactory) : IControl 
 {
-    IAppiumControlTreeNode Parent { get; set; }
-    AppiumWebElement GetElement();
-}
+    public ControlQueryExpression Query { get; set; }
 
-class AppiumControl(IControlFactory controlFactory) : IControl, IAppiumControlTreeNode
-{
-    AppiumControl Parent { get; set; }
-    ControlQueryExpression Query { get; set; }
+    public T Child<T>(ControlQueryExpression query) where T : IControl
+    {
+        var control = controlFactory.Create<T>(this, query);
+        if (control is AppiumControl appiumControl)
+            appiumControl.Parent = this; //this feels hacky, probably there's a better way to do this.
+        return control;
+    }
+
+    internal AppiumControl Parent { get; set; }
+
+    internal void SetUpAsRootNode(AppiumWebElement element)
+    {
+        if (Parent != null)
+            throw new Exception("Parent already set, blah blah helpfulness");
+
+        foundElement = element;
+    }
 
     AppiumWebElement foundElement;
-    AppiumWebElement GetElement()
+    internal AppiumWebElement GetElement()
     {
         if (foundElement != null)
             return foundElement;
 
-        if (Parent is not IAppiumControlTreeNode parent) //this feels hacky, probably there's a better way to do this.
+        if (Parent is not AppiumControl parent) //this feels hacky, probably there's a better way to do this.
             throw new Exception("Parent not set, blah blah helpfulness");
 
         var parentElement = parent.GetElement();
@@ -62,46 +83,18 @@ class AppiumControl(IControlFactory controlFactory) : IControl, IAppiumControlTr
         var appiumQuery = query(queryBuilder);
         return foundElement = parentElement.FindElement(appiumQuery);
     }
-
-    T Child<T>(ControlQueryExpression query) where T : IControl
-    {
-        var control = controlFactory.Create<T>(this, query);
-        if (control is IAppiumControlTreeNode appiumControl)
-            appiumControl.Parent = this; //this feels hacky, probably there's a better way to do this.
-        return control;
-    }
 }
 
-class Window(
-    AppiumDriver driver, 
-    IControlFactory controlFactory) : IWindow, IAppiumControlTreeNode
+//this may need to be a wrapper, not sure if we can create the WindowsDriver at composition time for it to be in the container
+class AppiumDriver(IControlFactory controlFactory) : WindowsDriver<AppiumWebElement>, IWindowProvider
 {
-    AppiumControl Parent => null; //top of the tree
-    ControlQueryExpression Query { get; set; }
-
-    AppiumWebElement foundElement;
-    AppiumWebElement GetElement()
+    public IWindow GetWindow(ControlQueryExpression query) 
     {
-        if (foundElement != null)
-            return foundElement;
-
-        var queryBuilder = new AppiumQueryBuilder();
-        var appiumQuery = query(queryBuilder);
-        return foundElement = driver.FindElement(appiumQuery);
+        var window = controlFactory.Create<IWindow>(this, query);
+        var appiumQuery = query(new AppiumQueryBuilder());
+        var windowElement = FindElement(appiumQuery); //WindowsDriver contains the FindElement(By) method
+        window.SetUpAsRootNode(windowElement)
     }
-
-    T Child<T>(ControlQueryExpression query) where T : IControl
-    {
-        var control = controlFactory.Create<T>(this, query);
-        if (control is IAppiumControlTreeNode appiumControl)
-            appiumControl.Parent = this; //this feels hacky, probably there's a better way to do this.
-        return control;
-    }
-}
-
-class AppiumDriver() : WindowsDriver<AppiumWebElement> //this may need to be a wrapper, not sure if we can create the WindowsDriver at composition time for it to be in the container
-{
-    //windowsdriver contains the FindElement(By) method
 }
 
 #endregion

@@ -12,7 +12,7 @@ public class LoginStage(IWindow window) : IStage
     {
         window
             .Child<Control>(q => q.Id("LoginPopup"))
-            .Child<IText>(q => q.Name("Username"))
+            .Child<ITextEntry>(q => q.Name("Username"))
             .EnterText("admin");
     }
 }
