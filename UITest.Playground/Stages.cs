@@ -24,20 +24,20 @@ public class RunningStage(LoginStage loginStage, IEntitySetup setup, IServicePro
         loginStage.Login();
     }
 
-    public PageOpener SetupEntity(string entityName, JObject data)
+    public IPageOpener SetupEntity(string entityName, JObject data)
     {
         JObject data = setup.CreateEntity(entityName, data);
         
         var scope = services.CreateScope();
-        var page = scope.Services.GetRequiredService<PageOpener>();
+        var page = scope.Services.GetRequiredService<IPageOpener>();
         page.Link = new Link(/*data["guid"]*/);
         return page;
     }
 
-    public PageOpener NewEntity(string entityName)
+    public IPageOpener NewEntity(string entityName)
     {
         var scope = services.CreateScope();
-        var page = scope.Services.GetRequiredService<PageOpener>();
+        var page = scope.Services.GetRequiredService<IPageOpener>();
         page.Link = new Link(/*"/new"*/);
         return page;
     }
