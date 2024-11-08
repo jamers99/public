@@ -2,38 +2,20 @@ using Services;
 using Stages;
 namespace Tests;
 
-public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
+public class TestExampleSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
 {
-    #region Probably good
-
+    //The ui takes care of creating the entity because we're "clicking" (actually running hyperlink) the new button
     [Fact]
-    public void Path_ActuallyClickingTest()
+    public void Opening_NewPage_Test()
     {
-        var page = Stage.NewEntityPage("Customer").Open();
-        var fullName = page
-            .SelectTab("General")
-            .GetProperty<Text>("PrimaryContact.FullName"); //wait for exist
-
-        fullName.EnterText("James Esh");
-        Assert.Equal(fullName.Value, "James Esh");
+        var page = Stage
+            .NewEntity("Customer")
+            .Open();
     }
 
+    //The server creates the entity (via odata) and the client opens the data that was created.
     [Fact]
-    public void DataGrid_Test()
-    {
-        var page = Stage.NewEntityPage("Invoice").Open();
-        var details = page
-            .SelectTab("Details")
-            .GetProperty<DataGrid>("Details");
-
-        var quantity = details
-            .Rows[0]
-            .GetCell<Text>("Quantity");
-        quantity.EnterText("5");
-    }
-
-    [Fact]
-    public void DefineData_ViaOdata_Test()
+    public void Opening_Existing_ViaOData_Test()
     {
         var invoice = new JObject()
         {
@@ -44,24 +26,47 @@ public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
                 ["PrimaryContact.FullName"] = "Jamers99"
             }
         };
-
         var page = Stage
-            .SetupData("Invoice", invoice) //returns page factory
-            .Open();
-    }
-
-    [Fact]
-    public void DefineData_NewPage_Test()
-    {
-        var page = Stage
-            .EntityNew("Customer")
+            .SetupEntity("Invoice", invoice)
             .Open();
     }
 
     [Fact]
     public void DefineData_SearchView_Test()
     {
-        var searchView = Stage.EntitySearchView("Customer").Open();
+        var searchView = Stage
+            .EntitySearchView("Customer")
+            .Open();
+    }
+
+    [Fact]
+    public void Customer_EditTest()
+    {
+        var page = Stage
+            .NewEntity("Customer")
+            .Open();
+        var fullName = page
+            .SelectTab("General")
+            .GetProperty<Text>("PrimaryContact.FullName");
+
+        fullName.EnterText("James Esh");
+        Assert.Equal(fullName.Value, "James Esh");
+    }
+
+    [Fact]
+    public void DataGrid_Test()
+    {
+        var page = Stage
+            .NewEntity("Invoice")
+            .Open();
+        var details = page
+            .SelectTab("Details")
+            .GetProperty<DataGrid>("Details");
+
+        var quantity = details
+            .Rows[0]
+            .GetCell<Text>("Quantity");
+        quantity.EnterText("5");
     }
 
     [Fact]
@@ -76,53 +81,35 @@ public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
                 ["PrimaryContact.FullName"] = "Jamers99"
             }
         };
-        var invoice = Stage.SetupDataOnServer("Invoice", invoiceData);
+        var invoice = Stage.SetupEntity("Invoice", invoiceData);
 
         var customerData = new JObject()
         {
-            ["Something"] = invoice["Somethign from the invoice"],
+            ["Something"] = invoice["Something from the invoice"],
         };
-        var page = Stage.SetupData("Customer", customerData)
-    }
-
-    //The server creates the entity (via odata) and the client opens the data that was created.
-    [Fact]
-    public void Opening_Existing()
-    {
-        var data = new JObject();
         var page = Stage
-            .SetupData("Customer", data)
-            .Open();
-        
-        page.SelectTab("General")
-            .GetProperty<Text>("FirstName")
-            .EnterText("Kendall");
-    }
-
-    //The ui takes care of creating the entity because we're "clicking" (actually running hyperlink) the new button
-    [Fact]
-    public void Opening_New()
-    {
-        var page = Stage
-            .NewEntity("Customer")
+            .SetupEntity("Customer", customerData)
             .Open();
     }
+}
 
-    #endregion
 
-    #region Other ideas
 
+
+public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
+{
     // ..../OData/Customer   POST
     // {
     //     "Id": "123",
     //     "Category": "Customers", //probably actually a guid
     //     "FullName": "Kendall Frey"
     // }
+
     [Fact]
     public void Open_NotChain()
     {
-        var newPage = Stage.OpenNewEntityPage("Invoice");
-        var dataPage = Stage.SetupData("Invoice", data).OpenPage();
+        var newPage = Stage.OpenNewEntity("Invoice");
+        var dataPage = Stage.SetupEntity("Invoice", data).OpenPage();
 
     }
 
@@ -174,7 +161,7 @@ public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
             }
         };
 
-        using var data = Stage.SetupData("Invoice", invoice); //not like because it requires thinking
+        using var data = Stage.SetupEntity("Invoice", invoice); //not like because it requires thinking
         var page = data.OpenEntityPage();
     }
 
@@ -201,9 +188,9 @@ public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
             ],
         };
 
-        Stage.SetupData("Customer", data)
+        Stage.SetupEntity("Customer", data)
              .Open();
-        Stage.SetupData("Customer")
+        Stage.SetupEntity("Customer")
              .Open();
 
         var page = Stage.Page.Open("Invoice", data);
@@ -296,6 +283,4 @@ public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
         }
         firstName.Whatever // error
     }
-
-    #endregion
 }

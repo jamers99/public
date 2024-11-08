@@ -24,7 +24,7 @@ public class RunningStage(LoginStage loginStage, IEntitySetup setup, IServicePro
         loginStage.Login();
     }
 
-    public PageOpener SetupData(string entityName, JObject data)
+    public PageOpener SetupEntity(string entityName, JObject data)
     {
         JObject data = setup.CreateEntity(entityName, data);
         
