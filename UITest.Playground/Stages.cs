@@ -34,7 +34,7 @@ public class RunningStage(LoginStage loginStage, IEntitySetup setup, IServicePro
         return page;
     }
 
-    public PageOpener NewEntityPage(string entityName)
+    public PageOpener NewEntity(string entityName)
     {
         var scope = services.CreateScope();
         var page = scope.Services.GetRequiredService<PageOpener>();
