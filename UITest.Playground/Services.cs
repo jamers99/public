@@ -84,13 +84,17 @@ class MainWindow(IAppDriver driver) //singleton
 
 record PageLink(string Entity, string Identifier, string ExpectedTitle)
 
-class PageOpener(
-    MainWindow window,
-    LayoutFactory layoutFactory)
+interface IPageOpener
 {
+    Page Open();
     PageLink Link { get; set; }
+}
     
-    Page Open()
+class PageOpener(MainWindow window)
+{
+    public PageLink Link { get; set; }
+    
+    public Page Open()
     {
         var uri = GetUri();
         InvokeUri(uri);
