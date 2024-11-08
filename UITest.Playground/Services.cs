@@ -1,63 +1,69 @@
-//////// APPIUM-AGNOSTIC ///////
+namespace Services;
 
-interface IQueryBuilder 
+#region Control definitions (need implementations in Appium)
+
+public interface IQueryBuilder 
 {
-    IQuery Id(string id);
-    IQuery Text(string text);
-    IQuery Type(string type);
+    IControlQuery Id(string id);
+    IControlQuery Text(string text);
+    IControlQuery Type(string type);
 
     //probably not needed:
-    IQuery And(params IQuery[] query);
-    IQuery Or(params IQuery[] query);
+    IControlQuery And(params IQuery[] query);
+    IControlQuery Or(params IQuery[] query);
 }
 
-interface IQuery { }
+public interface IControlQuery { }
 
-delegate IControl ControlQuery(IQueryBuilder builder);
+delegate IControl ControlQueryExpression(IQueryBuilder builder);
 
-interface IControl
+public interface IControl
 {
-    ControlQuery Query {get;set;}
-    T GetChild<T>(ControlQuery query) where T : IControl;
+    ControlQueryExpression Query { get; set; }
+    T Child<T>(ControlQueryExpression query) where T : IControl;
 }
 
-interface IWindow : IControl
+public interface IControlFactory
 {
+    T Create<T>(ControlQueryExpression query) where T : IControl;
 }
 
-interface IText : IControl
+class ControlFactory(IServiceProvider services) : IControlFactory
+{
+    T Create<T>(ControlQueryExpression query) where T : IControl
+    {
+        IControl control = services.GetRequiredService<T>();
+        control.Query = query;
+        return control;
+    }
+}
+
+public interface IWindow : IControl
+{ //this is the top level control
+}
+
+public interface IText : IControl
 {
     void EnterText(string text);
 }
 
-interface IButton : IControl
+public interface IButton : IControl
 {
     void EnterText(string text);
 }
 
-interface ILayout
+#endif
+
+#region Layouts (stay the same even if we swap out Appium)
+
+public interface ILayout
 {
     IControl Frame {get; set;}
 }
 
-class PageOpener(
-    IUriLauncher launcher, 
-    IWindow window)
-{
-    string Uri { get; set; }
-    string ExpectedId { get; set; }
-    Page Open()
-    {
-        launcher.Invoke(Uri);
-        var pageControl = window.GetChild<IControl>(q => q.Id(ExpectedId));
-        return containerFactory.Create<Page>(pageControl);
-    }
-}
-
-
 class LayoutFactory(IServiceProvider services)
 {
-    T Create<T>(IControl control) where T : IControlContainer
+    T Create<T>(IControl control) where T : ILayout
     {
         T container = services.GetRequiredService<T>();
         container.Frame = control;
@@ -65,17 +71,17 @@ class LayoutFactory(IServiceProvider services)
     }
 }
 
-class Page(ILogger logger, LayoutFactory layoutFactory) : ILayout
+class Page(LayoutFactory layoutFactory) : ILayout
 {
     IControl Frame { get; set; }
 
     Panel SelectTab(string id)
     {
         Frame
-            .GetChild<IButton>(q => q.Id($"tab button {id}"))
+            .Child<IButton>(q => q.Id($"tab button {id}"))
             .Click();
 
-        var tabControl = Frame.GetChild<IControl>(q => q.Id($"tab {id}"));
+        var tabControl = Frame.Child<IControl>(q => q.Id($"tab {id}"));
         return layoutFactory.Create<Panel>(tabControl);
     }
 }
@@ -86,11 +92,42 @@ class Panel() : ILayout
 
     T GetProperty<T>(string name) where T : IControl
     {
-        return Frame.GetChild<T>(q => q.Id(name));
+        return Frame.Child<T>(q => q.Id(name));
     }
 
     T GetProperty<T>(string name) where T : ILayout
     {
-        return Frame.GetChild<T>(q => q.Id(name));
+        return Frame.Child<T>(q => q.Id(name));
+    }
+}
+
+#endregion
+
+record PageLink(string Entity, string Identifier, string ExpectedTitle)
+
+class PageOpener(
+    IWindow window,
+    LayoutFactory layoutFactory)
+{
+    PageLink Link { get; set; }
+    
+    Page Open()
+    {
+        var uri = GetUri();
+        InvokeUri(uri);
+
+        var pageFrame = window.Child<IControl>(q => q.Id(ExpectedId));
+        return layoutFactory.Create<Page>(pageFrame);
+    }
+
+    void InvokeUri(string uri)
+    {
+        ProcessInfo.Start(uri);
+    }
+
+    string GetUri()
+    {
+        //obviously we won't hard code the protocol
+        return $"kobleerp:{Link.Entity}?{Link.Identifier}";
     }
 }

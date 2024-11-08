@@ -1,30 +1,23 @@
-/////// APPIUM ////////
+using Services;
+namespace Appium;
+
+#region Queries
 
 class AppiumQueryBuilder : IQueryBuilder
 {
-    IQuery Id(string id) => new AppiumQuery(MobileBy.Id(id));
-    IQuery Text(string text) => new AppiumQuery(MobileBy.Text(text));
-    IQuery Type(string type) => new AppiumQuery(MobileBy.Class(type));
+    IControlQuery Id(string id) => new AppiumQuery(MobileBy.Id(id));
+    IControlQuery Text(string text) => new AppiumQuery(MobileBy.Text(text));
+    IControlQuery Type(string type) => new AppiumQuery(MobileBy.Class(type));
 }
 
-record AppiumQuery(By By) : IQuery
+record AppiumControlQuery(By By) : IControlQuery
 { }
 
+#endregion
 
+#region Controls
 
-
-class AppiumControlFactory(
-    IServiceProvider services) 
-{
-    T Create<T>(ControlQuery query) where T : IControl
-    {
-        IControl control = services.GetRequiredService<T>();
-        control.Init(query);
-        return control;
-    }
-}
-
-class AppiumText() : AppiumControl, IText
+class AppiumText(IControlFactory source) : AppiumControl(source), IText
 {
     void EnterText(string text)
     {
@@ -32,53 +25,83 @@ class AppiumText() : AppiumControl, IText
     }
 }
 
-class AppiumButton() : AppiumControl, IButton
+class AppiumButton(IControlFactory source) : AppiumControl(source), IButton
 {
-    void EnterText(string text)
+    void Click()
     {
-        Element.EnterText()
+        GetElement().Click()
     }
 }
 
-class AppiumControl(AppiumControlFactory controlFactory, IQueryBuilder queryBuilder) : IControl
+#endregion
+
+#region Element finding
+
+interface IAppiumControlTreeNode //this may be better as a base class, but would like to avoid lots of inheritance if possible
 {
-    ControlQuery Query {get; set;}
+    IAppiumControlTreeNode Parent { get; set; }
+    AppiumWebElement GetElement();
+}
+
+class AppiumControl(IControlFactory controlFactory) : IControl, IAppiumControlTreeNode
+{
+    AppiumControl Parent { get; set; }
+    ControlQueryExpression Query { get; set; }
 
     AppiumWebElement foundElement;
     AppiumWebElement GetElement()
     {
-        if (foundElement == null)
-            foundElement = driver.Find(query);
-        
-        return foundElement;
+        if (foundElement != null)
+            return foundElement;
+
+        if (Parent is not IAppiumControlTreeNode parent) //this feels hacky, probably there's a better way to do this.
+            throw new Exception("Parent not set, blah blah helpfulness");
+
+        var parentElement = parent.GetElement();
+        var queryBuilder = new AppiumQueryBuilder();
+        var appiumQuery = query(queryBuilder);
+        return foundElement = parentElement.FindElement(appiumQuery);
     }
 
-    T GetChild<T>(ControlQuery query) where T : IControl
+    T Child<T>(ControlQueryExpression query) where T : IControl
     {
-        var appiumQuery = (AppiumQuery)query(queryBuilder);
-        var element = GetElement();
-        return controlFactory.Create<T>(element);
+        var control = controlFactory.Create<T>(this, query);
+        if (control is IAppiumControlTreeNode appiumControl)
+            appiumControl.Parent = this; //this feels hacky, probably there's a better way to do this.
+        return control;
     }
 }
 
-class Window(AppiumDriver driver) : IWindow
+class Window(
+    AppiumDriver driver, 
+    IControlFactory controlFactory) : IWindow, IAppiumControlTreeNode
 {
-    ControlQuery Query {get; set;}
+    AppiumControl Parent => null; //top of the tree
+    ControlQueryExpression Query { get; set; }
 
-    T GetChild<T>(ControlQuery query) where T : IControl
+    AppiumWebElement foundElement;
+    AppiumWebElement GetElement()
     {
-        var appiumQuery = (AppiumQuery)query(queryBuilder);
-        var element = driver.FindElement(appiumQuery);
-        return controlFactory.Create<T>(element);
+        if (foundElement != null)
+            return foundElement;
+
+        var queryBuilder = new AppiumQueryBuilder();
+        var appiumQuery = query(queryBuilder);
+        return foundElement = driver.FindElement(appiumQuery);
+    }
+
+    T Child<T>(ControlQueryExpression query) where T : IControl
+    {
+        var control = controlFactory.Create<T>(this, query);
+        if (control is IAppiumControlTreeNode appiumControl)
+            appiumControl.Parent = this; //this feels hacky, probably there's a better way to do this.
+        return control;
     }
 }
 
-class AppiumDriver() : WindowsDriver<AppiumWebElement>
+class AppiumDriver() : WindowsDriver<AppiumWebElement> //this may need to be a wrapper, not sure if we can create the WindowsDriver at composition time for it to be in the container
 {
-    AppiumWebElement Find(ControlQuery query)
-    {
-        var parent = 
-        var appiumQuery = parser.ToBy(query);
-        return parent.FindElement(appiumQuery);
-    }
+    //windowsdriver contains the FindElement(By) method
 }
+
+#endregion

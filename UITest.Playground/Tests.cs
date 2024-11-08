@@ -1,4 +1,8 @@
-public class Tests(RunningStage stage) : TestBase<RunningStage>(stage)
+using Services;
+using Stages;
+namespace Tests;
+
+public class TestSandbox(RunningStage stage) : TestBase<RunningStage>(stage)
 {
     #region Probably good
 

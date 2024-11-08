@@ -1,20 +1,25 @@
-class LoginStage(IWindow window)
+using Services;
+namespace Stages;
+
+public interface IStage
+{
+    void TestSetup();
+}
+
+public class LoginStage(IWindow window) : IStage
 {
     void Login()
     {
         window
-            .GetChild<Control>(q => q.Id("LoginPopup"))
-            .GetChild<IText>(q => q.Name("Username"))
+            .Child<Control>(q => q.Id("LoginPopup"))
+            .Child<IText>(q => q.Name("Username"))
             .EnterText("admin");
     }
 }
 
-
-
-
-class RunningStage(LoginStage loginStage, IEntitySetup setup, IServiceProvider services)
+public class RunningStage(LoginStage loginStage, IEntitySetup setup, IServiceProvider services) : IStage
 {
-    void TestSetup()
+    public void TestSetup()
     {
         loginStage.Login();
     }
