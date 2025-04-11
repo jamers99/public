@@ -1,0 +1,15 @@
+﻿@if (ShowPrompt)
+{
+    <div class="modal-backdrop">
+        <div class="modal-popup">
+            <h3>Sign in to EBMS</h3>
+            <input @bind="Username" placeholder="Username" />
+            <input @bind="Password" type="password" placeholder="Password" />
+            <button @onclick="PasswordLogin">Sign In</button>
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <p class="error">@ErrorMessage</p>
+            }
+        </div>
+    </div>
+}

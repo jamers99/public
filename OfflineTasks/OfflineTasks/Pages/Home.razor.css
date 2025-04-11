@@ -1,0 +1,61 @@
+﻿.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #fff;
+    height: 64px;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 10;
+}
+
+.fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+    .fixed-header + .content {
+        margin-top: 50px;
+        margin-left: 20px;
+    }
+
+.logo {
+    display: flex;
+}
+
+    .logo img {
+        height: 36px;
+    }
+
+    .logo h1 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #0066cc;
+        margin-left: 12px;
+        margin-top: 6px;
+    }
+
+.sync-button {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.sync-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #b6ff00;
+    margin-left: 10px;
+}

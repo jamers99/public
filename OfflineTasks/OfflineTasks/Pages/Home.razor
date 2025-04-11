@@ -1,0 +1,23 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<header class="header fixed-header">
+    <div class="logo">
+        <img src="icon-192.png" alt="Logo">
+        <h1>Offline Tasks</h1>
+    </div>
+
+    <div class="header-actions">
+        <button class="sync-button">
+            Sync
+            <span class="sync-indicator"></span>
+        </button>
+    </div>
+</header>
+
+<main class="content">
+    <OfflineTasks.Components.EbmsAuthenticationPopup />
+
+    <OfflineTasks.Components.TaskList />
+</main>
