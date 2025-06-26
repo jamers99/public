@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigating the Digital Landscape: An Interactive Guide to Focus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Serene Harmony -->
+    <!-- Application Structure Plan: The SPA is designed as a guided, multi-stage journey to transform the dense report into an actionable tool. It starts with a Hero section to frame the problem, followed by an proactive 'Diagnostic' quiz for personalization. The 'Why' section uses visual diagrams to explain core psychological concepts. The 'Toolkit' is the core interactive section with tabbed navigation for different strategies (Mindset, Environment, In-the-Moment). It features interactive checklists and card-based content. The 'Action Plan' section allows users to generate a personalized, copyable plan. An optional 'Spiritual' section is collapsible. This non-linear, task-oriented structure prioritizes user engagement, personalization, and action over passive reading, making the report's content more digestible and practical. -->
+    <!-- Visualization & Content Choices: Report info is transformed into interactive elements to enhance understanding. Goal: Explain the multitasking cost -> Viz: The "Multitasking Myth" is explained in detail through text, removing the bar chart which was misleading. Goal: Demystify cognitive distortions -> Viz: Interactive flipping cards (HTML/CSS/JS) reveal reframes. Goal: Make environmental changes actionable -> Viz: An interactive HTML checklist with a dynamic progress bar. Goal: Explain the Habit Loop -> Viz: A diagram built with styled HTML divs. Goal: Explain Urge Surfing -> Viz: A step-by-step guide with simple iconography (Unicode). Goal: Create a personalized plan -> Viz: An HTML form that feeds a JS function to generate formatted text, enhanced with LLM suggestions. These choices avoid SVG/Mermaid and use structured HTML/CSS for diagrams, all supporting the interactive, user-centric structure. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F7FAFC; color: #2D3748; }
+        .nav-link { transition: all 0.3s ease; }
+        .nav-link.active { color: #2D3748; border-bottom-color: #4A5568; }
+        .nav-link:not(.active) { color: #718096; border-bottom-color: transparent; }
+        .tab-button.active { background-color: #4A5568; color: white; }
+        .tab-button:not(.active) { background-color: #E2E8F0; color: #4A5568; }
+        .card-container { perspective: 1000px; }
+        .card { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card-container:hover .card { transform: rotateY(180deg); }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; text-align: center; border-radius: 0.5rem; }
+        .card-front { background-color: #FFFFFF; border: 1px solid #E2E8F0; }
+        .card-back { background-color: #EDF2F7; border: 1px solid #CBD5E0; transform: rotateY(180deg); }
+        .section-fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .section-fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-gray-800">Focus<span class="text-slate-500">Flow</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 rounded-md text-sm font-medium border-b-2">The 'Why'</a>
+                        <a href="#toolkit" class="nav-link px-3 py-2 rounded-md text-sm font-medium border-b-2">The Toolkit</a>
+                        <a href="#action-plan" class="nav-link px-3 py-2 rounded-md text-sm font-medium border-b-2">Your Plan</a>
+                        <a href="#spiritual" class="nav-link px-3 py-2 rounded-md text-sm font-medium border-b-2">Deep Dive</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">Reclaim Your Attention.</h1>
+                <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">In a world of constant digital noise, focus is a superpower. This interactive guide translates proven psychological principles into an actionable plan to help you master your attention, conquer procrastination, and achieve deep work.</p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#diagnostic" class="inline-block bg-slate-700 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-slate-800 transition duration-300">Start Your Journey</a>
+                    <a href="https://digitalfocusflow.tiiny.site/Strategies%20for%20Enhanced%20Focus%20and%20Productivity.pdf" target="_blank" class="inline-block bg-gray-200 text-gray-700 font-bold py-3 px-8 rounded-lg text-lg hover:bg-gray-300 transition duration-300">See the full paper</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="diagnostic" class="py-16 md:py-24 section-fade-in">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Step 1: Understand Your Triggers</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Effective change starts with self-awareness. Identify the internal feelings and external cues that most often pull you away from your goals. Check all that apply to you.</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-semibold text-xl mb-4 text-gray-700">What are your primary distraction triggers?</h3>
+                            <div id="triggers-list" class="space-y-3"></div>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-xl mb-4 text-gray-700">What are your common avoidance behaviors?</h3>
+                            <div id="behaviors-list" class="space-y-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="intro" class="py-16 md:py-24 bg-white section-fade-in">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">The 'Why': The Science of Distraction</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Your struggle with focus isn't just about willpower. It's about brain chemistry, emotional responses, and the design of modern technology. Understanding these core concepts is the first step toward regaining control.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-slate-50 p-8 rounded-lg">
+                        <div class="text-4xl mb-4">🧠</div>
+                        <h3 class="font-bold text-xl mb-2">The Dopamine Loop</h3>
+                        <p class="text-gray-600">Notifications and new content trigger a release of dopamine, the "feel-good" chemical. Your brain learns to crave these small, frequent rewards, creating a compulsion to check your devices, even when you know you shouldn't.</p>
+                    </div>
+                    <div class="bg-slate-50 p-8 rounded-lg">
+                        <div class="text-4xl mb-4">🎭</div>
+                        <h3 class="font-bold text-xl mb-2">Emotional Escape</h3>
+                        <p class="text-gray-600">Procrastination is often an emotional regulation strategy. When a task feels boring, difficult, or stressful, digital distractions offer an immediate, easy escape from that discomfort, reinforcing the avoidance behavior.</p>
+                    </div>
+                     <div class="bg-slate-50 p-8 rounded-lg">
+                        <div class="text-4xl mb-4">🔄</div>
+                        <h3 class="font-bold text-xl mb-2">The Multitasking Myth</h3>
+                        <p class="text-gray-600">The brain can't truly multitask. Instead, it rapidly switches between tasks, incurring a "cognitive cost" each time. This leads to reduced efficiency, increased mental fatigue, and a higher chance of errors. Research shows that task-switching can increase error rates by as much as 40%.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="toolkit" class="py-16 md:py-24 section-fade-in">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">The Toolkit: Your Strategies for Focus</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Armed with knowledge, it's time for action. Explore these evidence-based techniques to build robust systems for focus. This is your arsenal for winning the battle for your attention.</p>
+                </div>
+
+                <div class="flex justify-center mb-8">
+                    <div id="tabs-container" class="flex space-x-2 md:space-x-4 p-1 bg-gray-200 rounded-lg"></div>
+                </div>
+
+                <div id="tab-content" class="max-w-5xl mx-auto"></div>
+            </div>
+        </section>
+
+        <section id="action-plan" class="py-16 md:py-24 bg-white section-fade-in">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Your Personalized Action Plan</h2>
+                    <p class="mt-3 text-lg text-gray-600 max-w-2xl mx-auto">Change happens through intention. Use this tool to create a concrete, personalized plan. Define your focus areas, set SMART goals, and identify the strategies you'll use to achieve them.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                    <form id="plan-form" class="space-y-6">
+                        <div>
+                            <label for="focus-area" class="block text-sm font-medium text-gray-700">Area of Focus (e.g., Reduce social media during work)</label>
+                            <input type="text" id="focus-area" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm" placeholder="What specific behavior do you want to change?">
+                        </div>
+                        <div>
+                            <label for="triggers" class="block text-sm font-medium text-gray-700">My Key Triggers (e.g., Boredom, difficult tasks)</label>
+                            <input type="text" id="triggers" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm" placeholder="What cues or feelings lead to this behavior?">
+                        </div>
+                        <div>
+                            <label for="smart-goal" class="block text-sm font-medium text-gray-700">My SMART Goal</label>
+                            <input type="text" id="smart-goal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm" placeholder="e.g., Limit social media to 15 mins after 5 PM daily for 1 week">
+                        </div>
+                        <div>
+                            <label for="strategies" class="block text-sm font-medium text-gray-700">Strategies I Will Use</label>
+                            <input type="text" id="strategies" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500 sm:text-sm" placeholder="e.g., Use website blocker, practice Urge Surfing, place phone in another room">
+                        </div>
+                        <div class="flex justify-end mt-6">
+                            <button type="submit" class="bg-slate-700 text-white font-bold py-2 px-6 rounded-lg hover:bg-slate-800 transition duration-300">Generate My Plan</button>
+                            <button type="button" id="ai-enhance-plan-btn" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300 ml-4">Enhance Plan with AI</button>
+                        </div>
+                        <div id="loading-indicator" class="hidden mt-4 text-center text-slate-600">Generating ideas...</div>
+                    </form>
+                </div>
+
+                <div id="generated-plan-container" class="max-w-4xl mx-auto mt-8 hidden">
+                    <h3 class="text-2xl font-bold text-center text-gray-800 mb-4">Here's Your Plan:</h3>
+                    <div id="generated-plan-output" class="bg-slate-50 p-6 rounded-lg whitespace-pre-wrap font-mono text-sm relative">
+                    </div>
+                    <div class="text-center mt-4">
+                        <button id="copy-plan-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300">Copy to Clipboard</button>
+                    </div>
+                    <div id="copy-feedback" class="text-center mt-2 text-green-600 font-semibold hidden">Plan copied!</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="spiritual" class="py-16 md:py-24 section-fade-in">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto">
+                    <details class="bg-white rounded-lg shadow-lg p-6">
+                        <summary class="font-bold text-xl cursor-pointer text-gray-800 list-none flex justify-between items-center">
+                            <span>Deep Dive: A Spiritual Perspective</span>
+                            <span class="text-2xl transition-transform duration-300 transform group-open:rotate-45">+</span>
+                        </summary>
+                        <div class="mt-4 text-gray-600 space-y-4">
+                            <p>For those whose worldview incorporates spiritual principles, biblical teachings can offer a profound layer of motivation for digital discipline. This perspective frames self-control not just as a productivity hack, but as a spiritual practice that aligns daily actions with a higher purpose and core values.</p>
+                            <h4 class="font-semibold text-gray-700">Key Principles:</h4>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>Stewardship of Time:</strong> Viewing time as a precious gift to be used wisely and for lasting significance (Ephesians 5:15-16).</li>
+                                <li><strong>Guarding the Heart:</strong> Being mindful of the media and information consumed, ensuring it aligns with positive values (Philippians 4:8).</li>
+                                <li><strong>The Sabbath Principle:</strong> Embracing intentional rest and disconnection from work and screens to allow for spiritual and mental rejuvenation.</li>
+                                <li><strong>Prayer & Dependence:</strong> Seeking divine strength and self-control, recognizing that true change is often empowered beyond personal effort alone (Galatians 5:22-23).</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 FocusFlow. An interactive guide to reclaiming your attention.</p>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const appData = {
+        diagnostic: {
+            triggers: [
+                { id: 't1', text: 'Feeling bored or under-stimulated' },
+                { id: 't2', text: 'Facing a difficult or complex task' },
+                { id: 't3', text: 'Feeling stressed or anxious' },
+                { id: 't4', text: 'Waiting for something (e.g., code to compile)' },
+                { id: 't5', text: 'Receiving a notification (sound or visual)' },
+                { id: 't6', text: 'Seeing my phone on my desk' }
+            ],
+            behaviors: [
+                { id: 'b1', text: 'Mindlessly scrolling social media' },
+                { id: 'b2', text: 'Checking news headlines or feeds' },
+                { id: 'b3', text: 'Switching to check email constantly' },
+                { id: 'b4', text: 'Watching unrelated videos' },
+                { id: 'b5', text: 'Frequently switching between work tabs' },
+                { id: 'b6', text: 'Delaying the start of an important task' }
+            ]
+        },
+        toolkit: [
+            {
+                id: 'mindset',
+                title: 'Mindset & CBT',
+                content: `
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-800">Challenge Your Thoughts</h3>
+                        <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Your thoughts shape your reality and your actions. Procrastination is often fueled by distorted, negative thinking. Cognitive Behavioral Therapy (CBT) offers a powerful method to identify, challenge, and reframe these thoughts. Hover over or tap a card to reveal a more balanced, productive way of thinking.</p>
+                    </div>
+                    <div id="cbt-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6"></div>`
+            },
+            {
+                id: 'environment',
+                title: 'Environment',
+                content: `
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-800">Engineer Your Focus Zone</h3>
+                        <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Your environment acts as an "invisible hand" shaping your behavior. Instead of relying on willpower alone, design your physical and digital spaces to make focus the path of least resistance. Use this checklist to optimize your environment.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                         <div class="flex items-center justify-between mb-4">
+                            <span class="text-sm font-medium text-gray-700">Optimization Progress</span>
+                            <span id="progress-text" class="text-sm font-medium text-gray-700">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div id="progress-bar" class="bg-slate-600 h-2.5 rounded-full" style="width: 0%; transition: width 0.5s ease-in-out;"></div>
+                        </div>
+                        <div id="env-checklist" class="mt-6 space-y-4"></div>
+                    </div>`
+            },
+            {
+                id: 'techniques',
+                title: 'In-the-Moment',
+                content: `
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl font-bold text-gray-800">Win the Moment</h3>
+                        <p class="mt-2 text-gray-600 max-w-2xl mx-auto">Digital cravings and the need for a mental break are inevitable. The key is how you respond. These techniques provide immediate, in-the-moment tools to manage urges without giving in and to recharge effectively without turning to digital distractions.</p>
+                    </div>
+                    <div class="space-y-12">
+                        <div class="bg-white p-8 rounded-lg shadow">
+                            <h4 class="text-xl font-bold text-center text-gray-800 mb-4">Urge Surfing: Ride the Wave of Craving</h4>
+                            <p class="text-center text-gray-600 mb-6">When a digital craving hits, don't fight it or give in. Observe it like a scientist and ride it like a wave until it passes. An urge is just a temporary collection of thoughts and physical sensations.</p>
+                            <div id="urge-surfing-steps" class="space-y-4"></div>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow">
+                            <h4 class="text-xl font-bold text-center text-gray-800 mb-4">Productive Micro-Breaks</h4>
+                            <p class="text-center text-gray-600 mb-6">Breaks are essential for focus, but the type of break matters. Swap mindless scrolling for activities that genuinely refresh your brain. Here are some non-digital ideas for your 5-10 minute breaks.</p>
+                            <div id="micro-breaks" class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center"></div>
+                        </div>
+                    </div>`
+            }
+        ],
+        cbtCards: [
+            { front: "This bug is impossible to fix; I'll never find the root cause.", back: "This bug is complex, but I can break it down into smaller parts and isolate the problem systematically." },
+            { front: "My code for this feature is terrible; it's not good enough.", back: "My code has areas for improvement, which is normal. I can refactor incrementally after getting it working." },
+            { front: "Writing documentation is boring and a complete waste of my time.", back: "Good documentation saves future time and improves quality. I can make it more efficient by focusing on key decisions." },
+            { front: "I'm not smart enough to handle this new technology.", back: "This presents a learning curve, which is part of my job. I have the capacity to learn it step-by-step." }
+        ],
+        envChecklist: [
+            { id: 'c1', text: 'Turned off all non-essential notifications.' },
+            { id: 'c2', text: 'Physically place phone out of sight during focus blocks.' },
+            { id: 'c3', text: 'Designated a specific, consistent, and tidy workspace.' },
+            { id: 'c4', text: 'Use a website/app blocker for specific work periods.' },
+            { id: 'c5', text: 'Schedule specific times for checking email/social media.' },
+            { id: 'c6', text: 'Set phone to grayscale mode to reduce app appeal.' }
+        ],
+        urgeSurfing: [
+            { step: '1. Recognize', text: 'Name the urge: "I notice an urge to check my phone."' },
+            { step: '2. Locate', text: 'Notice where you feel it in your body (e.g., restless hands, tension).' },
+            { step: '3. Observe', text: 'Acknowledge the urge without judgment. It\'s a temporary experience.' },
+            { step: '4. Breathe', text: 'Take a few slow, deep breaths to ground yourself in the present.' },
+            { step: '5. Ride', text: 'Visualize the craving as a wave: it builds, peaks, and will subside.' }
+        ],
+        microBreaks: [
+            { icon: '🚶', text: 'Walk/Stretch' }, { icon: '💧', text: 'Hydrate' },
+            { icon: '✍️', text: 'Journal/Doodle' }, { icon: '🧩', text: 'Solve a Puzzle' },
+            { icon: '🧘', text: 'Mindful Breathing' }, { icon: '💬', text: 'Chat with a Colleague' }
+        ]
+    };
+
+    function init() {
+        populateDiagnosticLists();
+        // createMultitaskingChart(); // Removed chart
+        setupTabs();
+        setupSectionObserver();
+        setupNavScroll();
+        setupPlanForm();
+    }
+    
+    function setupNavScroll() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('main section');
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.4
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').substring(1) === entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            if (section.id) { // Only observe sections with an ID
+               observer.observe(section);
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                   targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    }
+
+    function populateDiagnosticLists() {
+        const triggersContainer = document.getElementById('triggers-list');
+        const behaviorsContainer = document.getElementById('behaviors-list');
+
+        appData.diagnostic.triggers.forEach(item => {
+            triggersContainer.innerHTML += createCheckbox(item.id, item.text, 'trigger');
+        });
+        appData.diagnostic.behaviors.forEach(item => {
+            behaviorsContainer.innerHTML += createCheckbox(item.id, item.text, 'behavior');
+        });
+    }
+
+    function createCheckbox(id, text, name) {
+        return `
+            <label for="${id}" class="flex items-center space-x-3 cursor-pointer">
+                <input type="checkbox" id="${id}" name="${name}" class="h-5 w-5 rounded border-gray-300 text-slate-600 focus:ring-slate-500">
+                <span class="text-gray-700">${text}</span>
+            </label>
+        `;
+    }
+    
+    function setupTabs() {
+        const tabsContainer = document.getElementById('tabs-container');
+        const tabContentContainer = document.getElementById('tab-content');
+
+        appData.toolkit.forEach((tab, index) => {
+            const button = document.createElement('button');
+            button.className = `tab-button px-4 py-2 md:px-6 md:py-2 text-sm md:text-base font-medium rounded-md transition duration-300`;
+            button.textContent = tab.title;
+            button.dataset.tabId = tab.id;
+            if (index === 0) {
+                button.classList.add('active');
+            }
+            tabsContainer.appendChild(button);
+        });
+
+        tabsContainer.addEventListener('click', (e) => {
+            if (e.target.matches('.tab-button')) {
+                const tabId = e.target.dataset.tabId;
+                switchTab(tabId);
+            }
+        });
+        
+        switchTab(appData.toolkit[0].id);
+    }
+    
+    function switchTab(tabId) {
+        const tabsContainer = document.getElementById('tabs-container');
+        const tabContentContainer = document.getElementById('tab-content');
+
+        tabsContainer.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tabId === tabId);
+        });
+        
+        const tabData = appData.toolkit.find(t => t.id === tabId);
+        tabContentContainer.innerHTML = tabData.content;
+
+        if (tabId === 'mindset') populateCbtCards();
+        if (tabId === 'environment') populateEnvChecklist();
+        if (tabId === 'techniques') {
+            populateUrgeSurfingSteps();
+            populateMicroBreaks();
+        }
+    }
+
+    function populateCbtCards() {
+        const container = document.getElementById('cbt-cards');
+        if (!container) return;
+        container.innerHTML = appData.cbtCards.map(card => `
+            <div class="card-container h-48">
+                <div class="card">
+                    <div class="card-front"><p class="text-lg font-medium">"${card.front}"</p></div>
+                    <div class="card-back"><p class="text-lg font-medium text-slate-800">"${card.back}"</p></div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function populateEnvChecklist() {
+        const container = document.getElementById('env-checklist');
+        if (!container) return;
+        container.innerHTML = appData.envChecklist.map(item => createCheckbox(item.id, item.text, 'checklist')).join('');
+        container.addEventListener('change', updateProgress);
+        updateProgress();
+    }
+    
+    function updateProgress() {
+        const checkboxes = document.querySelectorAll('#env-checklist input[type="checkbox"]');
+        const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+        const total = checkboxes.length;
+        const percentage = total > 0 ? (checkedCount / total) * 100 : 0;
+        
+        document.getElementById('progress-bar').style.width = `${percentage}%`;
+        document.getElementById('progress-text').textContent = `${Math.round(percentage)}%`;
+    }
+    
+    function populateUrgeSurfingSteps() {
+        const container = document.getElementById('urge-surfing-steps');
+        if (!container) return;
+        container.innerHTML = appData.urgeSurfing.map(item => `
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 bg-slate-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold">${item.step.charAt(0)}</div>
+                <div>
+                    <h5 class="font-semibold text-gray-700">${item.step}</h5>
+                    <p class="text-gray-600">${item.text}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function populateMicroBreaks() {
+        const container = document.getElementById('micro-breaks');
+        if(!container) return;
+        container.innerHTML = appData.microBreaks.map(item => `
+            <div class="bg-slate-50 p-4 rounded-lg">
+                <div class="text-4xl">${item.icon}</div>
+                <p class="mt-2 font-medium text-gray-700">${item.text}</p>
+            </div>
+        `).join('');
+    }
+
+    // Removed createMultitaskingChart function as per user request.
+
+    function setupSectionObserver() {
+        const sections = document.querySelectorAll('.section-fade-in');
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
+
+    function setupPlanForm() {
+        const form = document.getElementById('plan-form');
+        const generatePlanBtn = document.querySelector('#plan-form button[type="submit"]');
+        const aiEnhanceBtn = document.getElementById('ai-enhance-plan-btn'); // Get the AI button
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const focusArea = document.getElementById('focus-area').value.trim();
+            const triggers = document.getElementById('triggers').value.trim();
+            const smartGoal = document.getElementById('smart-goal').value.trim();
+            const strategies = document.getElementById('strategies').value.trim();
+
+            if (!focusArea || !smartGoal || !strategies) {
+                alert('Please fill out at least the Focus Area, SMART Goal, and Strategies fields.');
+                return;
+            }
+
+            const planText = `
+### MY DIGITAL FOCUS PLAN ###
+
+🎯 AREA OF FOCUS:
+${focusArea}
+
+⚡️ KEY TRIGGERS:
+${triggers || 'Not specified'}
+
+📈 SMART GOAL:
+${smartGoal}
+
+🛠️ STRATEGIES TO USE:
+${strategies}
+            `;
+
+            const outputContainer = document.getElementById('generated-plan-container');
+            const outputElement = document.getElementById('generated-plan-output');
+            outputElement.textContent = planText.trim();
+            outputContainer.classList.remove('hidden');
+        });
+        
+        // AI Enhance Button functionality
+        aiEnhanceBtn.addEventListener('click', async () => {
+            const focusArea = document.getElementById('focus-area').value.trim();
+            const triggers = document.getElementById('triggers').value.trim();
+            const smartGoal = document.getElementById('smart-goal').value.trim();
+            const strategies = document.getElementById('strategies').value.trim();
+            const outputElement = document.getElementById('generated-plan-output');
+            const outputContainer = document.getElementById('generated-plan-container');
+
+            if (!focusArea || !smartGoal || !strategies) {
+                alert('Please fill out at least the Focus Area, SMART Goal, and Strategies fields before enhancing.');
+                return;
+            }
+
+            loadingIndicator.classList.remove('hidden');
+            aiEnhanceBtn.disabled = true; 
+            generatePlanBtn.disabled = true; // Disable both buttons during AI generation
+
+            let chatHistory = [];
+            const prompt = `Given the following focus area, identified triggers, SMART goal, and initial strategies for improving digital focus, please expand upon the 'Strategies I Will Use' section by suggesting 3-5 additional, actionable, and evidence-based strategies. Ensure the suggestions are practical for a software engineer working from home.
+
+Focus Area: ${focusArea}
+Key Triggers: ${triggers}
+SMART Goal: ${smartGoal}
+My Current Strategies: ${strategies}
+
+Additional Strategies:`;
+
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const aiSuggestions = result.candidates[0].content.parts[0].text;
+                    
+                    const existingPlanText = outputElement.textContent; 
+                    const updatedPlanText = existingPlanText + "\n\n--- AI-Generated Additions ---\n" + aiSuggestions;
+                    outputElement.textContent = updatedPlanText; 
+                    outputContainer.classList.remove('hidden'); 
+
+                } else {
+                    console.error('LLM response structure unexpected:', result);
+                    alert('Failed to enhance plan. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error calling LLM:', error);
+                alert('An error occurred while connecting to the AI. Please try again later.');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                aiEnhanceBtn.disabled = false; 
+                generatePlanBtn.disabled = false; // Re-enable both buttons
+            }
+        });
+
+        const copyBtn = document.getElementById('copy-plan-btn');
+        copyBtn.addEventListener('click', () => {
+             const planText = document.getElementById('generated-plan-output').textContent;
+             const feedback = document.getElementById('copy-feedback');
+             
+             const textArea = document.createElement('textarea');
+             textArea.value = planText;
+             document.body.appendChild(textArea);
+             textArea.select();
+             try {
+                document.execCommand('copy');
+                feedback.classList.remove('hidden');
+                setTimeout(() => feedback.classList.add('hidden'), 2000);
+             } catch (err) {
+                console.error('Failed to copy text: ', err);
+                feedback.textContent = 'Copy failed!';
+                feedback.classList.remove('hidden', 'text-green-600');
+                feedback.classList.add('text-red-600');
+             }
+             document.body.removeChild(textArea);
+        });
+    }
+    
+    init();
+});
+</script>
+</body>
+</html>
